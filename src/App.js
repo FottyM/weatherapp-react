@@ -34,7 +34,7 @@ class App extends Component {
       <div className="App">
           <form onSubmit={ (e) => this.handleSubmit(e) }>
               <input type="text" name="location" value={ location } onChange={ (e) => this.handleChange(e) }/>
-              <p onClick={ () => this.handleClick() }>use my current position </p>
+              <p>use my </p> <span onClick={ () => this.handleClick() }>current position </span>
               <button type="submit"> fetch </button>
           </form>
       </div>

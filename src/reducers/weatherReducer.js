@@ -1,11 +1,13 @@
 let initialState = {
     location: '',
+    geolocation: {},
     dataForGivenLocation: {},
     dataForCurrTime: {},
     dataForGivenLocationF:{},
     dataForCurrTimeF:{},
     unitOfMeasure:false,
-    loading: false
+    loading: false,
+    message: ''
 }
 
 const weatherReducer = (state = initialState, action) => {
@@ -14,12 +16,12 @@ const weatherReducer = (state = initialState, action) => {
             return {...state, dataForGivenLocation: action.payload}
         case 'UPDATE_LOCATION_NAME':
             return {...state, location: action.payload }
+        case 'FIND_BY_LOCATION_ERROR':
+            return {...state, message: action.payload}
         case 'FIND_BY_GEOLOCATION':
-            debugger
             return {...state, }
         case 'FIND_BY_GEOLOCATION_ERROR':
-            debugger
-            return {...state}
+            return {...state, message: action.payload }
         default:
             return {...state}
     }
