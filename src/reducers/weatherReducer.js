@@ -2,26 +2,51 @@ let initialState = {
     location: '',
     geolocation: {},
     dataForGivenLocation: {},
-    dataForCurrTime: {},
-    dataForGivenLocationF:{},
-    dataForCurrTimeF:{},
-    unitOfMeasure:false,
+    dataForGivenLocationF: {},
+    unitOfMeasure: false,
     loading: false,
-    message: ''
+    errorMessage: ''
 }
 
 const weatherReducer = (state = initialState, action) => {
-    switch (action.type){
-        case 'FIND_BY_LOCATION':
-            return {...state, dataForGivenLocation: action.payload}
+
+    let {dataForGivenLocation, dataForGivenLocationF} = state;
+
+    switch (action.type) {
+
         case 'UPDATE_LOCATION_NAME':
-            return {...state, location: action.payload }
+            return {...state, location: action.payload}
+
+        case 'FIND_BY_LOCATION':
+            dataForGivenLocation = {
+                generalData: action.payload.generalData,
+                specificData: action.payload.specificData
+            }
+            dataForGivenLocationF = {
+                generalDataFahrenheit: action.payload.generalDataFahrenheit,
+                specificDataFahrenheit: action.payload.specificDataFahrenheit
+            }
+            return {...state, dataForGivenLocation, dataForGivenLocationF}
+
         case 'FIND_BY_LOCATION_ERROR':
-            return {...state, message: action.payload}
+            return {...state, errorMessage: action.payload}
+
         case 'FIND_BY_GEOLOCATION':
-            return {...state, }
+
+            dataForGivenLocation = {
+                generalData: action.payload.generalData,
+                specificData: action.payload.specificData
+            }
+
+            dataForGivenLocationF = {
+                generalDataFahrenheit: action.payload.generalDataFahrenheit,
+                specificDataFahrenheit: action.payload.specificDataFahrenheit
+            }
+            return {...state, dataForGivenLocation, dataForGivenLocationF};
+
         case 'FIND_BY_GEOLOCATION_ERROR':
-            return {...state, message: action.payload }
+            return {...state, errorMessage: action.payload}
+
         default:
             return {...state}
     }
