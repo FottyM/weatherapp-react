@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect}from 'react-redux'
 import './App.css';
 import Result from './containers/Result';
-import { findByLocation, updateLocationName } from './actions/weatherAction'
+import { findByLocation, updateLocationName, findByGeoLocation } from './actions/weatherAction'
 import weatherReducer from "./reducers/weatherReducer";
 
 
@@ -12,17 +12,19 @@ class App extends Component {
     handleSubmit(e){
       e.preventDefault();
       const location = this.props.location;
-      debugger
       this.props.findByLocation(location)
 
     }
-
-
 
     handleChange(e){
       let location =  e.target.value
         console.log(location)
       this.props.updateLocationName(location);
+    }
+
+    handleClick(){
+        console.log('Clicked')
+        this.props.findByGeoLocation();
     }
 
 
@@ -32,6 +34,7 @@ class App extends Component {
       <div className="App">
           <form onSubmit={ (e) => this.handleSubmit(e) }>
               <input type="text" name="location" value={ location } onChange={ (e) => this.handleChange(e) }/>
+              <p onClick={ () => this.handleClick() }>use my current position </p>
               <button type="submit"> fetch </button>
           </form>
       </div>
@@ -52,6 +55,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateLocationName(location){
             dispatch(updateLocationName(location))
+        },
+        findByGeoLocation(){
+            dispatch(findByGeoLocation())
         }
     }
 

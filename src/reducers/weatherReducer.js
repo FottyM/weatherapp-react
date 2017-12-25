@@ -14,6 +14,12 @@ const weatherReducer = (state = initialState, action) => {
             return {...state, dataForGivenLocation: action.payload}
         case 'UPDATE_LOCATION_NAME':
             return {...state, location: action.payload }
+        case 'FIND_BY_GEOLOCATION':
+            debugger
+            return {...state, }
+        case 'FIND_BY_GEOLOCATION_ERROR':
+            debugger
+            return {...state}
         default:
             return {...state}
     }
