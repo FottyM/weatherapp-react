@@ -1,28 +1,112 @@
-.App {
-  text-align: center;
+html {
+  height: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background: linear-gradient(to bottom, #fe806a 0%, #ff8f69 100%);
+  font-family: 'Roboto', sans-serif;
+  color: #4B6772;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#app {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-auto-columns: minmax(300px, auto); */
+  grid-auto-rows: minmax(50px, auto);
+  background: white;
+  margin: 30px 7% auto 7%;
+  grid-gap: 3px;
 }
 
-.App-title {
-  font-size: 1.5em;
+#app div{
+  padding: 10px;
 }
 
-.App-intro {
-  font-size: large;
+.header {
+  /* grid-area: header; */
+  background: wheat;
+  /* grid-column: 1/3; */
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.switch {
+  /* grid-area: switch; */
+  background: #333;
+  justify-self: end;
+  /* grid-column: 3/5; */
+}
+
+.date-day {
+  /* grid-area: date-day; */
+  background: grey;
+  grid-column: 1/3;
+  font-size: 20px;
+}
+
+.big-temp {
+  /* grid-area: big-date; */
+  background: darkcyan;
+  font-size: 5em;
+  align-self: center;
+  justify-self: start;
+  /* grid-column: 1/2; */
+}
+
+.big-icon {
+  /* grid-area: big-icon; */
+  background: cyan;
+  font-size: 5em;
+  align-self: center;
+  justify-self: start;
+  /* grid-column: 2/3; */
+}
+
+.daily-forecast {
+  /* grid-area: daily-forecast; */
+  background: orange;
+  grid-column: 1/3;
+}
+
+.days-forecast {
+  background: red;
+  /* grid-area: days-forecast; */
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media screen and (min-width: 760px) {
+  #app {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background: white;
+    margin: 30px 7% auto 7%;
+  }
+  .header {
+    grid-column: 1/4;
+  }
+  .switch {
+    grid-column: 4/7;
+  }
+  .date-day {
+    grid-column: 1/7;
+  }
+  .big-temp {
+    grid-column: 1/3;
+  }
+  .big-icon {
+    grid-column: 3/5;
+  }
+  .daily-forecast {
+    grid-column: 5/7;
+  }
+  .days-forecast {
+    grid-column: 1/7;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 3px;
+  }
 }

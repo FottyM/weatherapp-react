@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {connect}from 'react-redux'
 import './App.css';
-import Result from './containers/Result';
+import DayForecast from './components/DayForecast';
 import { findByLocation, updateLocationName, findByGeoLocation } from './actions/weatherAction'
 import weatherReducer from "./reducers/weatherReducer";
-
-
 
 class App extends Component {
 
@@ -37,6 +35,8 @@ class App extends Component {
               <p>use my </p> <span onClick={ () => this.handleClick() }>current position </span>
               <button type="submit"> fetch </button>
           </form>
+
+          <DayForecast/>
       </div>
     );
   }
