@@ -28,7 +28,11 @@ class App extends Component {
 
 
   render() {
+      // this.props.findByGeoLocation();
         const {location} = this.props.location;
+        console.log(this.props)
+
+
     return (
         <div>
             <div>
@@ -39,7 +43,7 @@ class App extends Component {
             </form>
             </div>
 
-            <Results far={this.props.dataForGivenLocation} cel={this.props.dataForGivenLocationF}/>
+            <Results celcius={this.props.dataForGivenLocation} fahrenheit={this.props.dataForGivenLocationF}/>
         </div>
 
     );

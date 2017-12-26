@@ -16,7 +16,7 @@ export default class DayForecast extends Component{
         let days = Array(7).fill('');
         return(
             <div id="app" className="container">
-                <div className="header"> back Tallinn </div>
+                <div className="header"> back  </div>
                 <div className="switch">switch</div>
                 <div className="date-day">
                     <p>Tuesday, December 26th 2017</p>
