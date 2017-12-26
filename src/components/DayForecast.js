@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
 export default class DayForecast extends Component{
-    constructor(props){
-        super(props)
-    }
+
     renderSevenDaysForecast(i){
         return (
             <div key={i}>

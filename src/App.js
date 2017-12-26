@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {connect}from 'react-redux'
 import './App.css';
-import DayForecast from './components/DayForecast';
+// import DayForecast from './components/DayForecast';
+import Results from './containers/Result'
 import { findByLocation, updateLocationName, findByGeoLocation } from './actions/weatherAction'
-import weatherReducer from "./reducers/weatherReducer";
+
 
 class App extends Component {
 
@@ -29,22 +30,28 @@ class App extends Component {
   render() {
         const {location} = this.props.location;
     return (
-      <div className="App">
-          <form onSubmit={ (e) => this.handleSubmit(e) }>
-              <input type="text" name="location" value={ location } onChange={ (e) => this.handleChange(e) }/>
-              <p>use my </p> <span onClick={ () => this.handleClick() }>current position </span>
-              <button type="submit"> fetch </button>
-          </form>
+        <div>
+            <div>
+            <form onSubmit={ (e) => this.handleSubmit(e) }>
+            <input type="text" name="location" value={ location } onChange={ (e) => this.handleChange(e) }/>
+            <p>use my </p> <span onClick={ () => this.handleClick() }>current position </span>
+            <button type="submit"> fetch </button>
+            </form>
+            </div>
 
-          <DayForecast/>
-      </div>
+            <Results far={this.props.dataForGivenLocation} cel={this.props.dataForGivenLocationF}/>
+        </div>
+
     );
   }
 }
 
+
+
 const mapStateToProps = (state) =>{
     return{
-        ...state.weatherReducer
+        ...state.weatherReducer,
+        turns: true
     }
 };
 
