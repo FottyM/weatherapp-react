@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import './App.css';
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 
 
 import {findByLocation, updateLocationName, findByGeoLocation} from './actions/weatherAction'
@@ -32,7 +31,7 @@ class App extends Component {
                 <form onSubmit={(e) => this.handleSubmit(e)}>
                     <input type="text" name="location" value={location} onChange={(e) => this.handleChange(e)}/>
                     <p>use my <span onClick={() => this.handleClick()}>current position </span></p>
-                    <button type="submit"> fetch</button>
+                    <button type="submit"></button>
                 </form>
             </div>
         );
@@ -44,11 +43,10 @@ App.propTypes = {
     findByLocation: PropTypes.func.isRequired,
     updateLocationName: PropTypes.func.isRequired,
     findByGeoLocation: PropTypes.func.isRequired,
-    location: PropTypes.string,
-    geolocation: PropTypes.object,
+    location: PropTypes.string.isRequired,
     dataForGivenLocation: PropTypes.object,
     dataForGivenLocationF: PropTypes.object,
-    unitOfMeasure: PropTypes.bool,
+    unitOfMeasure: PropTypes.string,
     loading: PropTypes.bool,
     errorMessage: PropTypes.object
 
@@ -56,8 +54,7 @@ App.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        ...state.weatherReducer,
-        turns: true
+        ...state.weatherReducer
     }
 };
 

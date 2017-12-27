@@ -1,11 +1,10 @@
 let initialState = {
     location: '',
-    geolocation: {},
     dataForGivenLocation: {},
     dataForGivenLocationF: {},
     unitOfMeasure: 'c',
     loading: false,
-    errorMessage: ''
+    errorMessage: {}
 }
 
 const weatherReducer = (state = initialState, action) => {
@@ -18,6 +17,7 @@ const weatherReducer = (state = initialState, action) => {
             return {...state, location: action.payload}
 
         case 'FIND_BY_LOCATION':
+
             dataForGivenLocation = {
                 generalData: action.payload.generalData,
                 specificData: action.payload.specificData

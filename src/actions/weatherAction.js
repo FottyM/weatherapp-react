@@ -1,25 +1,25 @@
 import axios from 'axios';
-import { push } from 'react-router-redux'
+import {push} from 'react-router-redux'
 
 const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
 export function findByLocation(location) {
     return async (dispatch) => {
-        const generalData = await axios.get(findByLocationURL(location,'c','g',API_KEY))
+        const generalData = await axios.get(findByLocationURL(location, 'c', 'g', API_KEY))
             .then((res) => res.data)
             .catch((error) => error.response.data);
 
-        const specificData = await axios.get(findByLocationURL(location,'c','s',API_KEY))
-            .then((res) => res.data)
-            .catch((error) => error.response.data);
-
-
-        const generalDataFahrenheit = await axios.get(findByLocationURL(location,'f','g', API_KEY))
+        const specificData = await axios.get(findByLocationURL(location, 'c', 's', API_KEY))
             .then((res) => res.data)
             .catch((error) => error.response.data);
 
 
-        const specificDataFahrenheit = await axios.get(findByLocationURL(location, 'f','g', API_KEY))
+        const generalDataFahrenheit = await axios.get(findByLocationURL(location, 'f', 'g', API_KEY))
+            .then((res) => res.data)
+            .catch((error) => error.response.data);
+
+
+        const specificDataFahrenheit = await axios.get(findByLocationURL(location, 'f', 's', API_KEY))
             .then((res) => res.data)
             .catch((error) => {
                 //FIXME: Change it later
@@ -42,19 +42,19 @@ export function findByGeoLocation() {
     return dispatch => {
         navigator.geolocation.getCurrentPosition(
             async (geolocation) => {
-                const generalData = await axios.get(findByGeoLocationURL(geolocation,'c','g',API_KEY))
+                const generalData = await axios.get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
                     .then(res => res.data)
                     .catch(error => error);
 
-                const specificData = await axios.get(findByGeoLocationURL(geolocation,'c','s',API_KEY))
+                const specificData = await axios.get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY))
                     .then(res => res.data)
                     .catch(error => error);
 
-                const generalDataFahrenheit = await axios.get(findByGeoLocationURL(geolocation,'f','g', API_KEY))
+                const generalDataFahrenheit = await axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
                     .then(res => res.data)
                     .catch(error => error);
 
-                const specificDataFahrenheit = await axios.get(findByGeoLocationURL(geolocation,'f','s', API_KEY))
+                const specificDataFahrenheit = await axios.get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
                     .then(res => res.data)
                     .catch(error => error);
 
@@ -84,46 +84,47 @@ export function updateLocationName(location) {
 }
 
 export function changeUnit(unit) {
-    return{
-        type:'CHANGE_UNIT',
+    return {
+        type: 'CHANGE_UNIT',
         payload: unit
     }
 }
 
-function findByLocationURL(location, unit, details,API_KEY) {
-    if(unit === 'c' && details === 'g'){
+const findByLocationURL = (location, unit, details, API_KEY) => {
+
+    if (unit === 'c' && details === 'g') {
         return `http://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`
     }
 
-    if(unit === 'c' && details === 's'){
+   else if (unit === 'c' && details === 's') {
         return `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=${API_KEY}`
     }
 
-    if(unit === 'f' && details === 'g'){
+    else if (unit === 'f' && details === 'g') {
         return `http://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=imperial&cnt=7&APPID=${API_KEY}`
     }
 
-    if( unit === 'f' && details ==='s'){
+    else if (unit === 'f' && details === 's') {
         return `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&APPID=${API_KEY}`
     }
 
 }
 
-function findByGeoLocationURL(geolocation, unit, details,API_KEY) {
+const findByGeoLocationURL = (geolocation, unit, details, API_KEY) => {
 
-    if(unit === 'c' && details ==='g'){
+    if (unit === 'c' && details === 'g') {
         return `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=metric&cnt=7&APPID=${API_KEY}`
     }
 
-    if(unit === 'c' && details ==='s'){
+    if (unit === 'c' && details === 's') {
         return `http://api.openweathermap.org/data/2.5/weather?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=metric&APPID=${API_KEY}`
     }
 
-    if(unit === 'f' && details ==='g'){
+    if (unit === 'f' && details === 'g') {
         return `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=imperial&cnt=7&APPID=${API_KEY}`
     }
 
-    if( unit === 'f' && details ==='s'){
+    if (unit === 'f' && details === 's') {
         return `http://api.openweathermap.org/data/2.5/weather?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=imperial&APPID=${API_KEY}`
     }
 

@@ -6,6 +6,7 @@
 
 .date-day{
     grid-column: 1/3;
+    font-weight: lighter;
 }
 
 .daily-forecast{
@@ -40,7 +41,8 @@
 
     .date-day{
         grid-column: 1/7;
-        background: darksalmon;
+        font-weight: 300;
+        /*background: darksalmon;*/
     }
 
     .big-temp{
@@ -66,4 +68,8 @@
         grid-template-columns: repeat(7,1fr);
     }
 
+}
+
+.orange{
+    color:  #C76060;
 }

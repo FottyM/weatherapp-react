@@ -2,13 +2,28 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import mapKeys from 'lodash/mapKeys'
 
 import '../style/Result.css';
 import {changeUnit} from "../actions/weatherAction";
 
-class Result  extends Component{
+class Result extends Component {
 
-    renderSevenDaysForecast(i){
+    capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    dailyForecast(object) {
+
+    }
+
+    renderHourlyTemp() {
+        return (
+            <li></li>
+        )
+    }
+
+    renderSevenDaysForecast(i) {
         return (
             <div key={i}>
                 <p>Tue</p>
@@ -18,36 +33,40 @@ class Result  extends Component{
         );
     }
 
-    changedUnitOfMeasure(unit){
-        const { dataForGivenLocation, dataForGivenLocationF } =  this.props;
+    changedUnitOfMeasure(unit) {
+        const {dataForGivenLocation, dataForGivenLocationF} = this.props;
         return unit === 'c' ? dataForGivenLocation : dataForGivenLocationF;
     }
 
-    toggleUnitOfMeasure(e){
+    toggleUnitOfMeasure(e) {
         let toggle = e.target.checked;
         console.log(toggle, 'toggle');
         return toggle ? this.props.changeUnit('f') : this.props.changeUnit('c')
     }
 
-    render(){
-        let days = Array(7).fill('');
-        let todaysDate = moment().format('dddd, MMMM Do YYYY');
-        const unit = this.props.unitOfMeasure;
-        let data = this.changedUnitOfMeasure(unit);
+    render() {
 
-        return(
+        const todaysDate = moment().format('dddd, MMMM Do YYYY'),
+            unit = this.props.unitOfMeasure,
+            data = this.changedUnitOfMeasure(unit),
+            sevenDaysForecast = data.generalData.list;
+        let dailyForecst = data.generalData.list[0].temp
+
+        debugger
+
+        return (
             <div className="container">
-                <div className="header">  <h2> <span>back</span> { data.city.name }</h2></div>
-                <div className="switch"><input type="checkbox" onClick={ (e) => this.toggleUnitOfMeasure(e) }/></div>
+                <div className="header"><h2><span>back</span> {data.specificData.name}</h2></div>
+                <div className="switch"><input type="checkbox" onClick={(e) => this.toggleUnitOfMeasure(e)}/></div>
                 <div className="date-day">
-                    <h1>{ todaysDate } </h1>
-                    <h2> {   } </h2>
+                    <h1>{todaysDate} </h1>
+                    <h2> {this.capitalize(data.specificData.weather[0].description)} </h2>
                 </div>
-                <div className="big-temp">
-                    32 F
+                <div className="big-temp orange">
+                    {data.specificData.main.temp}
                 </div>
-                <div className="big-icon">Cloud</div>
-                <div className="daily-forecast">
+                <div className="big-icon orange">{data.specificData.weather[0].icon}</div>
+                <div className="daily-forecast orange">
                     <ul>
                         <li>Mon 40</li>
                         <li>Day 39</li>
@@ -56,7 +75,7 @@ class Result  extends Component{
                     </ul>
                 </div>
                 <div className="days-forecast">
-                    { days.map( (el, index) => this.renderSevenDaysForecast(index))}
+                    {sevenDaysForecast.map((el, index) => this.renderSevenDaysForecast(index))}
                 </div>
             </div>
         )
@@ -80,7 +99,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return{
+    return {
         changeUnit(unit) {
             dispatch(changeUnit(unit))
         }
