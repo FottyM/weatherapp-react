@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
+import moment from 'moment'
+
 import '../style/Result.css';
 
 class Result  extends Component{
@@ -18,17 +20,17 @@ class Result  extends Component{
     render(){
         console.log(this.props);
         let days = Array(7).fill('');
-        let todaysDate = new Date(Date.now()).toLocaleDateString('en-US',
-            { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        let todaysDate = moment().format('dddd, MMMM Do YYYY');
+
         const { dataForGivenLocation, dataForGivenLocationF } =  this.props;
-        // debugger
+        debugger
         return(
             <div className="container">
                 <div className="header"> back { dataForGivenLocation.generalData.name } </div>
                 <div className="switch">switch</div>
                 <div className="date-day">
-                    <h1>{ todaysDate }</h1>
-                    <p>Light snow</p>
+                    <h1>{ todaysDate } </h1>
+                    <h2> {  } </h2>
                 </div>
                 <div className="big-temp">
                     32 F
