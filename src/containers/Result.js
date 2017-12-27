@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import mapKeys from 'lodash/mapKeys'
+import 'weather-icons/css/weather-icons.css'
 
 import '../style/Result.css';
 import {changeUnit} from "../actions/weatherAction";
@@ -50,9 +50,7 @@ class Result extends Component {
             unit = this.props.unitOfMeasure,
             data = this.changedUnitOfMeasure(unit),
             sevenDaysForecast = data.generalData.list;
-        let dailyForecst = data.generalData.list[0].temp
-
-        debugger
+        // let dailyForecst = data.generalData.list[0].temp
 
         return (
             <div className="container">
@@ -65,7 +63,10 @@ class Result extends Component {
                 <div className="big-temp orange">
                     {data.specificData.main.temp}
                 </div>
-                <div className="big-icon orange">{data.specificData.weather[0].icon}</div>
+                <div className="big-icon orange">
+                    {data.specificData.weather[0].icon}
+                    <i className={`wi wi-owm-${data.specificData.weather[0].icon}`}></i>
+                    </div>
                 <div className="daily-forecast orange">
                     <ul>
                         <li>Mon 40</li>
