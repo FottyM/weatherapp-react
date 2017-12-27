@@ -3,7 +3,7 @@ let initialState = {
     geolocation: {},
     dataForGivenLocation: {},
     dataForGivenLocationF: {},
-    unitOfMeasure: false,
+    unitOfMeasure: 'c',
     loading: false,
     errorMessage: ''
 }
@@ -23,8 +23,8 @@ const weatherReducer = (state = initialState, action) => {
                 specificData: action.payload.specificData
             }
             dataForGivenLocationF = {
-                generalDataFahrenheit: action.payload.generalDataFahrenheit,
-                specificDataFahrenheit: action.payload.specificDataFahrenheit
+                generalData: action.payload.generalDataFahrenheit,
+                specificData: action.payload.specificDataFahrenheit
             }
             return {...state, dataForGivenLocation, dataForGivenLocationF}
 
@@ -39,13 +39,16 @@ const weatherReducer = (state = initialState, action) => {
             }
 
             dataForGivenLocationF = {
-                generalDataFahrenheit: action.payload.generalDataFahrenheit,
-                specificDataFahrenheit: action.payload.specificDataFahrenheit
+                generalData: action.payload.generalDataFahrenheit,
+                specificData: action.payload.specificDataFahrenheit
             }
             return {...state, dataForGivenLocation, dataForGivenLocationF};
 
         case 'FIND_BY_GEOLOCATION_ERROR':
-            return {...state, errorMessage: action.payload}
+            return {...state, errorMessage: action.payload }
+
+        case 'CHANGE_UNIT':
+            return{...state, unitOfMeasure: action.payload }
 
         default:
             return {...state}

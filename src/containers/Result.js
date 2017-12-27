@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import '../style/Result.css';
+import {changeUnit} from "../actions/weatherAction";
 
 class Result  extends Component{
 
@@ -17,20 +18,30 @@ class Result  extends Component{
         );
     }
 
+    changedUnitOfMeasure(unit){
+        const { dataForGivenLocation, dataForGivenLocationF } =  this.props;
+        return unit === 'c' ? dataForGivenLocation : dataForGivenLocationF;
+    }
+
+    toggleUnitOfMeasure(e){
+        let toggle = e.target.checked;
+        console.log(toggle, 'toggle');
+        return toggle ? this.props.changeUnit('f') : this.props.changeUnit('c')
+    }
+
     render(){
-        console.log(this.props);
         let days = Array(7).fill('');
         let todaysDate = moment().format('dddd, MMMM Do YYYY');
+        const unit = this.props.unitOfMeasure;
+        let data = this.changedUnitOfMeasure(unit);
 
-        const { dataForGivenLocation, dataForGivenLocationF } =  this.props;
-        debugger
         return(
             <div className="container">
-                <div className="header"> back { dataForGivenLocation.generalData.name } </div>
-                <div className="switch">switch</div>
+                <div className="header">  <h2> <span>back</span> { data.city.name }</h2></div>
+                <div className="switch"><input type="checkbox" onClick={ (e) => this.toggleUnitOfMeasure(e) }/></div>
                 <div className="date-day">
                     <h1>{ todaysDate } </h1>
-                    <h2> {  } </h2>
+                    <h2> {   } </h2>
                 </div>
                 <div className="big-temp">
                     32 F
@@ -53,16 +64,10 @@ class Result  extends Component{
 }
 
 Result.propTypes = {
-
-    findByLocation: PropTypes.func.isRequired,
-    updateLocationName: PropTypes.func.isRequired,
-    findByGeoLocation: PropTypes.func.isRequired,
     location: PropTypes.string,
-    geolocation: PropTypes.object,
-    dataForGivenLocation: PropTypes.object,
-    dataForGivenLocationF: PropTypes.object,
-    unitOfMeasure: PropTypes.bool,
-    loading: PropTypes.bool,
+    dataForGivenLocation: PropTypes.object.isRequired,
+    dataForGivenLocationF: PropTypes.object.isRequired,
+    unitOfMeasure: PropTypes.string.isRequired,
     errorMessage: PropTypes.object
 };
 
@@ -76,7 +81,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return{
-
+        changeUnit(unit) {
+            dispatch(changeUnit(unit))
+        }
     }
 };
 
