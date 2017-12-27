@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { push } from 'react-router-redux'
 
 const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
 export function findByLocation(location) {
-    return async (dispacth) => {
+    return async (dispatch) => {
         const generalData = await axios.get(findByLocationURL(location, API_KEY))
             .then((res) => res.data)
             .catch((error) => error.response.data);
@@ -22,20 +23,25 @@ export function findByLocation(location) {
             .then((res) => res.data)
             .catch((error) => {
                 //FIXME: Change it later
-                dispacth({
+                dispatch({
                     type: 'FIND_BY_LOCATION_ERROR',
                     payload: error.response.data
                 })
             });
-        dispacth({
+
+
+
+        dispatch({
             type: 'FIND_BY_LOCATION',
             payload: {generalData, specificData, generalDataFahrenheit, specificDataFahrenheit}
-        })
+        });
+
+        dispatch(push('/search'));
     }
 }
 
 export function findByGeoLocation() {
-    return disptach => {
+    return dispatch => {
         navigator.geolocation.getCurrentPosition(
             async (geolocation) => {
                 const generalData = await axios.get(finByGeolocationURL(geolocation, API_KEY))
@@ -54,13 +60,17 @@ export function findByGeoLocation() {
                     .then(res => res.data)
                     .catch(error => error);
 
-                disptach({
+                dispatch({
                     type: 'FIND_BY_GEOLOCATION',
                     payload: {generalData, specificData, generalDataFahrenheit, specificDataFahrenheit}
                 })
+
+                dispatch(push('/search'));
+
+                // dispatch(push('/search'));
             },
             (error) => {
-                disptach({
+                dispatch({
                     type: 'FIND_BY_GEOLOCATION_ERROR',
                     payload: error
                 });

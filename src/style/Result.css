@@ -35,6 +35,7 @@
     .switch{
         grid-column: 4/7;
         background: aqua;
+        justify-self: end;
     }
 
     .date-day{

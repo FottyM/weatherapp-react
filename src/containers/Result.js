@@ -1,7 +1,9 @@
-import React, {Component} from 'react'
-import '../style/Result.css'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types'
+import '../style/Result.css';
 
-export default class Result  extends Component{
+class Result  extends Component{
 
     renderSevenDaysForecast(i){
         return (
@@ -14,15 +16,18 @@ export default class Result  extends Component{
     }
 
     render(){
+        console.log(this.props);
         let days = Array(7).fill('');
-        const { celcius, fahrenheit} =  this.props;
-
+        let todaysDate = new Date(Date.now()).toLocaleDateString('en-US',
+            { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        const { dataForGivenLocation, dataForGivenLocationF } =  this.props;
+        // debugger
         return(
             <div className="container">
-                <div className="header"> back </div>
+                <div className="header"> back { dataForGivenLocation.generalData.name } </div>
                 <div className="switch">switch</div>
                 <div className="date-day">
-                    <p>Tuesday, December 26th 2017</p>
+                    <h1>{ todaysDate }</h1>
                     <p>Light snow</p>
                 </div>
                 <div className="big-temp">
@@ -44,3 +49,33 @@ export default class Result  extends Component{
         )
     }
 }
+
+Result.propTypes = {
+
+    findByLocation: PropTypes.func.isRequired,
+    updateLocationName: PropTypes.func.isRequired,
+    findByGeoLocation: PropTypes.func.isRequired,
+    location: PropTypes.string,
+    geolocation: PropTypes.object,
+    dataForGivenLocation: PropTypes.object,
+    dataForGivenLocationF: PropTypes.object,
+    unitOfMeasure: PropTypes.bool,
+    loading: PropTypes.bool,
+    errorMessage: PropTypes.object
+};
+
+
+const mapStateToProps = (state) => {
+    return {
+        ...state.weatherReducer,
+    }
+
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Result);
