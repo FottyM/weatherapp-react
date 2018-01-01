@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import renderHTML from 'react-render-html';
 import '../style/weather-icons/css/weather-icons.css';
 
 import '../style/Result.css';
@@ -12,10 +13,44 @@ class Result extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  dailyForecast(object) {}
+  renderHourlyTemp(data) {
+    data = Object.keys(data || {})
+      .map(key => {
+        if (key !== 'min' && key !== 'max') {
+          return { [key]: data[key] };
+        }
+      })
+      .filter(x => x);
 
-  renderHourlyTemp() {
-    return <li />;
+    return (
+      <table>
+        <tr>
+          <td>Morning</td>
+          <td>
+            {data[3].morn} {this.symbol()}
+          </td>
+        </tr>
+        <tr>
+          <td>Day</td>
+          <td>
+            {' '}
+            {data[0].day} {this.symbol()}
+          </td>
+        </tr>
+        <tr>
+          <td>Evening</td>
+          <td>
+            {data[2].eve} {this.symbol()}{' '}
+          </td>
+        </tr>
+        <tr>
+          <td>Night</td>
+          <td>
+            {data[1].night} {this.symbol()}
+          </td>
+        </tr>
+      </table>
+    );
   }
 
   setDay() {
@@ -36,8 +71,10 @@ class Result extends Component {
   }
 
   symbol() {
-    if (this.props.unitOfMeasure === 'f') return '&#8457;'; //degree F
-    return '&#8451;'; //degree C
+    if (this.props.unitOfMeasure === 'f') {
+      return renderHTML('&#8457;'); //degree F
+    }
+    return renderHTML('&#8451;'); //degree C
   }
 
   dayAndNightShift() {
@@ -91,17 +128,19 @@ class Result extends Component {
           <h1>{todaysDate} </h1>
           <h2> {this.capitalize(data.specificData.weather[0].description)} </h2>
         </div>
-        <div className="big-temp orange">{data.specificData.main.temp}</div>
+        <div className="big-temp orange">
+          {' '}
+          <h2>
+            {data.specificData.main.temp} {this.symbol()}
+          </h2>
+        </div>
         <div className="big-icon orange">
-          <i className={`wi wi-owm-${data.specificData.weather[0].id}`} />
+          <h2>
+            <i className={`wi wi-owm-${data.specificData.weather[0].id}`} />
+          </h2>
         </div>
         <div className="daily-forecast orange">
-          <ul>
-            <li>Mon 40</li>
-            <li>Day 39</li>
-            <li>Eve 32</li>
-            <li>Night 29</li>
-          </ul>
+          {this.renderHourlyTemp(data.generalData.list[0].temp)}
         </div>
         <div className="days-forecast">
           {sevenDaysForecast.map((el, index) =>
@@ -114,10 +153,11 @@ class Result extends Component {
 }
 
 Result.propTypes = {
-  location: PropTypes.string,
+  changeUnit: PropTypes.any.isRequired,
   dataForGivenLocation: PropTypes.object.isRequired,
   dataForGivenLocationF: PropTypes.object.isRequired,
   unitOfMeasure: PropTypes.string.isRequired,
+  location: PropTypes.string,
   errorMessage: PropTypes.object
 };
 

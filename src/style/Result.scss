@@ -30,45 +30,41 @@
 
   .header {
     grid-column: 1/4;
-    background: greenyellow;
+    //background: greenyellow;
     font-size: 1.3em;
   }
 
   .switch {
     grid-column: 4/7;
-    background: aqua;
+    //background: aqua;
     justify-self: end;
   }
 
   .date-day {
     grid-column: 1/7;
     font-weight: 100;
-    /*background: darksalmon;*/
   }
 
   .big-temp {
     grid-column: 1/2;
-    /*background: bisque;*/
     font-size: 5em;
     font-weight: 700;
   }
 
   .big-icon {
     grid-column: 2/3;
-    /*background: deepskyblue;*/
     font-size: 5em;
     font-weight: 700;
   }
 
   .daily-forecast {
     grid-column: 3/5;
-    background: darkseagreen;
+    //background: darkseagreen;
     justify-self: start;
   }
 
   .days-forecast {
     grid-column: 1/7;
-    /*background: teal;*/
     grid-template-columns: repeat(7, 1fr);
   }
 }
