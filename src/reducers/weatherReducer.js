@@ -23,7 +23,12 @@ const weatherReducer = (state = initialState, action) => {
         generalData: action.payload.generalDataFahrenheit,
         specificData: action.payload.specificDataFahrenheit
       };
-      return { ...state, dataForGivenLocation, dataForGivenLocationF };
+      return {
+        ...state,
+        dataForGivenLocation,
+        dataForGivenLocationF,
+        errorMessage: {}
+      };
 
     case 'FIND_BY_LOCATION_ERROR':
       return { ...state, errorMessage: action.payload };
@@ -38,7 +43,12 @@ const weatherReducer = (state = initialState, action) => {
         generalData: action.payload.generalDataFahrenheit,
         specificData: action.payload.specificDataFahrenheit
       };
-      return { ...state, dataForGivenLocation, dataForGivenLocationF };
+      return {
+        ...state,
+        dataForGivenLocation,
+        dataForGivenLocationF,
+        errorMessage: {}
+      };
 
     case 'FIND_BY_GEOLOCATION_ERROR':
       return { ...state, errorMessage: action.payload };

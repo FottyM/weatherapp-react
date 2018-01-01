@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import 'weather-icons/css/weather-icons.css';
+import '../style/weather-icons/css/weather-icons.css';
 
 import '../style/Result.css';
 import { changeUnit } from '../actions/weatherAction';
@@ -16,6 +16,37 @@ class Result extends Component {
 
   renderHourlyTemp() {
     return <li />;
+  }
+
+  setDay() {
+    let date = moment().format('MMMM Do YYYY, h:mm:ss a');
+    let today = new Date();
+    today = today.setDate(today.getDate() + date);
+    today = new Date(today).getDay();
+    const days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+    return days[today];
+  }
+
+  symbol() {
+    if (this.props.unitOfMeasure === 'f') return '&#8457;'; //degree F
+    return '&#8451;'; //degree C
+  }
+
+  dayAndNightShift() {
+    let currentTime = new Date();
+    let hours = currentTime.getHours();
+
+    if (hours < 6 || hours >= 18) return 'night-';
+
+    if (hours >= 6 && hours < 18) return 'day-';
   }
 
   renderSevenDaysForecast(i) {
@@ -62,8 +93,7 @@ class Result extends Component {
         </div>
         <div className="big-temp orange">{data.specificData.main.temp}</div>
         <div className="big-icon orange">
-          {data.specificData.weather[0].icon}
-          <i className={`wi wi-owm-${data.specificData.weather[0].icon}`} />
+          <i className={`wi wi-owm-${data.specificData.weather[0].id}`} />
         </div>
         <div className="daily-forecast orange">
           <ul>
