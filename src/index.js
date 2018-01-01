@@ -24,7 +24,7 @@ const persistedState = loadState();
 const store = createStore(combineReducers({
     weatherReducer,
     router: routerReducer }),
-    persistedState,
+    persistedState,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(logger, thunk, middleware));
 
 store.subscribe(throttle(()=>{

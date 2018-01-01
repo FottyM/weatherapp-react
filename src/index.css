@@ -3,11 +3,17 @@ html {
 }
 
 body {
+
     height: 100%;
     margin: 0;
     background: linear-gradient(to bottom, #fe806a 0%, #ff8f69 100%) no-repeat fixed;
     font-family: 'Roboto', sans-serif;
     color: #4B6772;
+    background: -moz-linear-gradient(top, #fe806a 0%, #ff8f69 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #fe806a 0%, #ff8f69 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #fe806a 0%, #ff8f69 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe806a', endColorstr='#ff8f69', GradientType=0); /* IE6-9 */
+
 
 }
 
