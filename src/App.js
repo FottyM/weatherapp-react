@@ -43,7 +43,7 @@ class App extends Component {
                 name="location"
                 value={location}
                 onChange={e => this.handleChange(e)}
-                placeholder={location}
+                placeholder="City"
                 className="embed-submit-field"
               />
               <button type="submit" className="fa fa-search" />
