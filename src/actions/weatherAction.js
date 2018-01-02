@@ -5,6 +5,11 @@ const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
 export function findByLocation(location) {
   return async dispatch => {
+    dispatch({
+      type: 'START_LOADING',
+      payload: true
+    });
+
     const generalData = await axios
       .get(findByLocationURL(location, 'c', 'g', API_KEY))
       .then(res => res.data)
@@ -41,18 +46,24 @@ export function findByLocation(location) {
       }
     });
 
+    dispatch({
+      type: 'STOP_LOADING',
+      payload: false
+    });
+
     dispatch(push('/search'));
   };
 }
 
 export function findByGeoLocation() {
   return dispatch => {
+    dispatch({
+      type: 'START_LOADING',
+      payload: true
+    });
+
     navigator.geolocation.getCurrentPosition(
       async geolocation => {
-        dispatch({
-          type: 'START_LOADING',
-          payload: true
-        });
         const generalData = await axios
           .get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
           .then(res => res.data)

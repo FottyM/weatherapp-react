@@ -56,7 +56,7 @@ const weatherReducer = (state = initialState, action) => {
       // debugger
       return { ...state, loading: action.payload };
     case 'STOP_LOADING':
-      debugger;
+      // debugger;
       return { ...state, loading: action.payload };
     case 'CHANGE_UNIT':
       return { ...state, unitOfMeasure: action.payload };
