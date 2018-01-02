@@ -45,7 +45,7 @@ store.subscribe(
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
+      <div className="mother-box">
         <Route exact path="/" component={App} />
         <Route path="/search" component={Result} />
       </div>

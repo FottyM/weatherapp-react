@@ -6,11 +6,16 @@ import renderHTML from 'react-render-html';
 import '../style/weather-icons/css/weather-icons.css';
 
 import '../style/Result.css';
-import { changeUnit } from '../actions/weatherAction';
+import arrow from '../style/back.svg';
+import { changeUnit, goBack } from '../actions/weatherAction';
 
 class Result extends Component {
   capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  goBack() {
+    this.props.goBack();
   }
 
   renderHourlyTemp(data) {
@@ -123,12 +128,17 @@ class Result extends Component {
       data = this.changedUnitOfMeasure(unit),
       sevenDaysForecast = data.generalData.list;
 
+    console.log(this.props);
+
     return (
       <div className="container">
         <div className="header">
-          <h2>
-            <span>-</span> {data.specificData.name}
-          </h2>
+          <p>
+            <span>
+              <img src={arrow} onClick={() => this.goBack()} />
+            </span>
+            {data.specificData.name}
+          </p>
         </div>
         <div className="switch-container">
           <label className="switch">
@@ -144,7 +154,9 @@ class Result extends Component {
           <h2> {this.capitalize(data.specificData.weather[0].description)} </h2>
         </div>
         <div className="big-temp orange">
-          <h2>{`${data.specificData.main.temp} ${this.setSymbol()}`}</h2>
+          <h2>{`${Math.floor(
+            data.specificData.main.temp
+          )} ${this.setSymbol()}`}</h2>
         </div>
         <div className="big-icon orange">
           <h2>
@@ -187,6 +199,9 @@ const mapDispatchToProps = dispatch => {
   return {
     changeUnit(unit) {
       dispatch(changeUnit(unit));
+    },
+    goBack() {
+      dispatch(goBack());
     }
   };
 };

@@ -27,21 +27,40 @@ class App extends Component {
 
   render() {
     const { location } = this.props.location;
+    console.log(location);
+    // debugger
     return (
-      <div>
-        <form onSubmit={e => this.handleSubmit(e)}>
-          <input
-            type="text"
-            name="location"
-            value={location}
-            onChange={e => this.handleChange(e)}
-          />
-          <p>
-            use my{' '}
-            <span onClick={() => this.handleClick()}>current position </span>
-          </p>
-          <button type="submit" />
-        </form>
+      <div className="home-container">
+        <div />
+        <div className="">
+          <div className="">
+            <form
+              onSubmit={e => this.handleSubmit(e)}
+              className="embed-submit-field"
+            >
+              <input
+                type="text"
+                name="location"
+                value={location}
+                onChange={e => this.handleChange(e)}
+                placeholder={location}
+                className="embed-submit-field"
+              />
+              <button type="submit" className="fa fa-search" />
+            </form>
+          </div>
+          <div className="texts">
+            <p>or</p>
+            <br />
+            <p className="center">
+              use my{' '}
+              <span className="dotted " onClick={() => this.handleClick()}>
+                current position{' '}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div />
       </div>
     );
   }

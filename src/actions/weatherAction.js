@@ -105,6 +105,10 @@ export function changeUnit(unit) {
   };
 }
 
+export function goBack() {
+  return dispatch => dispatch(push('/'));
+}
+
 const findByLocationURL = (location, unit, details, API_KEY) => {
   if (unit === 'c' && details === 'g') {
     return `http://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`;
