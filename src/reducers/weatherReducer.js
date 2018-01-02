@@ -52,7 +52,12 @@ const weatherReducer = (state = initialState, action) => {
 
     case 'FIND_BY_GEOLOCATION_ERROR':
       return { ...state, errorMessage: action.payload };
-
+    case 'START_LOADING':
+      // debugger
+      return { ...state, loading: action.payload };
+    case 'STOP_LOADING':
+      debugger;
+      return { ...state, loading: action.payload };
     case 'CHANGE_UNIT':
       return { ...state, unitOfMeasure: action.payload };
 

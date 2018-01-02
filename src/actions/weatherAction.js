@@ -49,6 +49,10 @@ export function findByGeoLocation() {
   return dispatch => {
     navigator.geolocation.getCurrentPosition(
       async geolocation => {
+        dispatch({
+          type: 'START_LOADING',
+          payload: true
+        });
         const generalData = await axios
           .get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
           .then(res => res.data)
@@ -77,6 +81,11 @@ export function findByGeoLocation() {
             generalDataFahrenheit,
             specificDataFahrenheit
           }
+        });
+
+        dispatch({
+          type: 'STOP_LOADING',
+          payload: false
         });
 
         dispatch(push('/search'));

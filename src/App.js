@@ -26,43 +26,57 @@ class App extends Component {
   }
 
   render() {
-    const { location } = this.props.location;
-    console.log(location);
-    // debugger
-    return (
-      <div className="home-container">
-        <div />
-        <div className="">
-          <div className="">
-            <form
-              onSubmit={e => this.handleSubmit(e)}
-              className="embed-submit-field"
-            >
-              <input
-                type="text"
-                name="location"
-                value={location}
-                onChange={e => this.handleChange(e)}
-                placeholder="City"
+    const { location, loading } = this.props;
+
+    const isLoading = loading => {
+      if (loading) {
+        return (
+          <div className="home-container">
+            <div />
+            <div>
+              <i class="fa fa-spinner" aria-hidden="true" />
+            </div>
+            <div />
+          </div>
+        );
+      }
+      return (
+        <div className="home-container">
+          <div />
+          <div>
+            <div>
+              <form
+                onSubmit={e => this.handleSubmit(e)}
                 className="embed-submit-field"
-              />
-              <button type="submit" className="fa fa-search" />
-            </form>
+              >
+                <input
+                  type="text"
+                  name="location"
+                  value={location}
+                  onChange={e => this.handleChange(e)}
+                  placeholder="City"
+                  className="embed-submit-field"
+                />
+                <button type="submit" className="fa fa-search" />
+              </form>
+            </div>
+            <div className="texts">
+              <p>or</p>
+              {/*<br />*/}
+              <p className="center">
+                use my{' '}
+                <span className="dotted " onClick={() => this.handleClick()}>
+                  current position{' '}
+                </span>
+              </p>
+            </div>
           </div>
-          <div className="texts">
-            <p>or</p>
-            <br />
-            <p className="center">
-              use my{' '}
-              <span className="dotted " onClick={() => this.handleClick()}>
-                current position{' '}
-              </span>
-            </p>
-          </div>
+          <div />
         </div>
-        <div />
-      </div>
-    );
+      );
+    };
+
+    return <div>{isLoading(loading)}</div>;
   }
 }
 
