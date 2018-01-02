@@ -1,31 +1,30 @@
+//colors
+$color_salmon_approx: #ff7e6b;
+$color_blue_bayoux_approx: #4d6472;
+$white: white;
+$black_20: rgba(0, 0, 0, 0.2);
+$black_19: rgba(0, 0, 0, 0.19);
+
+//fonts
+$font_0: Roboto;
+$font_1: sans-serif;
+
 html {
     height: 100%;
 }
-
 body {
-
     height: 100%;
     margin: 0;
-    background: linear-gradient(to bottom, #fe806a 0%, #ff8f69 100%) no-repeat fixed;
-    font-family: 'Roboto', sans-serif;
-    color: #4B6772;
-    background: -moz-linear-gradient(top, #fe806a 0%, #ff8f69 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #fe806a 0%, #ff8f69 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #fe806a 0%, #ff8f69 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe806a', endColorstr='#ff8f69', GradientType=0); /* IE6-9 */
-
-
+    background: linear-gradient(to bottom, $color_salmon_approx 0, $color_salmon_approx 100%) no-repeat fixed;
+    font-family: $font_0, $font_1;
+    color: $color_blue_bayoux_approx;
 }
-
 #app {
-    background: white;
+    background: $white;
     margin: 60px 7% auto 7%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 $black_20, 0 6px 20px 0 $black_19;
     min-height: 500px;
-
+    div {
+        padding: 5px;
+    }
 }
-
-#app div{
-    padding: 5px;
-}
-

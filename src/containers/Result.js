@@ -77,11 +77,10 @@ class Result extends Component {
     return renderHTML('&#8451;'); //degree C
   }
 
-  showIcondayAndNightShift(code) {
+  showIconDayAndNightShift(code) {
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const prefix = 'wi wi-owm';
-    let icon = '';
     if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
       if (hours < 6 || hours >= 18) {
         return `${prefix}-night-${code}`;
@@ -91,8 +90,8 @@ class Result extends Component {
         return `${prefix}-day-${code}`;
       }
     }
-    icon = prefix + '-' + code;
-    return icon;
+
+    return prefix + '-' + code;
   }
 
   renderSevenDaysForecast(el, i) {
@@ -101,7 +100,7 @@ class Result extends Component {
       <div key={i}>
         <p>{this.setDay(i)}</p>
         <p className="bigger-icon">
-          <i className={this.showIcondayAndNightShift(id)} />
+          <i className={this.showIconDayAndNightShift(id)} />
         </p>
         <p>{`${el.temp.day} ${this.setSymbol()}`}</p>
       </div>
@@ -115,7 +114,6 @@ class Result extends Component {
 
   toggleUnitOfMeasure(e) {
     let toggle = e.target.checked;
-    console.log(toggle, 'toggle');
     return toggle ? this.props.changeUnit('f') : this.props.changeUnit('c');
   }
 
@@ -129,11 +127,17 @@ class Result extends Component {
       <div className="container">
         <div className="header">
           <h2>
-            <span>back</span> {data.specificData.name}
+            <span>-</span> {data.specificData.name}
           </h2>
         </div>
-        <div className="switch">
-          <input type="checkbox" onClick={e => this.toggleUnitOfMeasure(e)} />
+        <div className="switch-container">
+          <label className="switch">
+            <input type="checkbox" onClick={e => this.toggleUnitOfMeasure(e)} />
+            <div className="slider round">
+              <span className="on">&#8451;</span>
+              <span className="off">&#8457;</span>
+            </div>
+          </label>
         </div>
         <div className="date-day">
           <h1>{todaysDate} </h1>
@@ -145,7 +149,7 @@ class Result extends Component {
         <div className="big-icon orange">
           <h2>
             <i
-              className={this.showIcondayAndNightShift(
+              className={this.showIconDayAndNightShift(
                 data.specificData.weather[0].id
               )}
             />
