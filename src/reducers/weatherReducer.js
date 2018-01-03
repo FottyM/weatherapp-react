@@ -28,7 +28,8 @@ const weatherReducer = (state = initialState, action) => {
         ...state,
         dataForGivenLocation,
         dataForGivenLocationF,
-        errorMessage: ''
+        errorMessage: '',
+        errorMessageGeolocation: ''
       };
 
     case 'FIND_BY_LOCATION_ERROR':
@@ -48,7 +49,8 @@ const weatherReducer = (state = initialState, action) => {
         ...state,
         dataForGivenLocation,
         dataForGivenLocationF,
-        errorMessage: {}
+        errorMessage: '',
+        errorMessageGeolocation: ''
       };
 
     case 'FIND_BY_GEOLOCATION_ERROR':
