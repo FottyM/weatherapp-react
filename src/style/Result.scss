@@ -34,6 +34,7 @@ $font_1: sans-serif;
   font-weight: 100;
   .title{
     text-align: start !important;
+    padding-right: 20px;
   }
 }
 .days-forecast {
@@ -71,10 +72,11 @@ $font_1: sans-serif;
   grid-column: span 3;
   justify-self: center;
   grid-row: 4/5;
-  > h1,h2 {
+  > h2 {
     padding: 0;
     margin: 0;
     font-weight: 500;
+    letter-spacing: -.10em;
   }
 }
 .big-icon {
@@ -97,6 +99,10 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 2fr;
 
+    h2 {
+      font-size: 40px;
+    }
+
   }
   .switch-container {
     grid-column: 4/7;
@@ -115,13 +121,19 @@ h2 {
   }
   .big-temp {
     grid-column: 1/3;
+    grid-row: 3/4;
     padding: 0;
     margin: 0;
+    justify-self: start;
+    align-self: center;
+    //background-color:#006173 ;
+
     > * {
       padding: 0;
       margin: 0;
-      font-size: 120px;
+      font-size: 130px;
       font-weight: 400;
+      text-align: start;
 
     }
   }
@@ -132,21 +144,39 @@ h2 {
     font-weight: 400;
     padding: 0;
     margin: 0;
-    * > {
-      justify-self: center;
-    }
-
+    //background-color: #2196f3;
+    align-self: center;
   }
+
   .daily-forecast {
     grid-column: 4/7;
     justify-self: start;
     padding: 0;
-    margin: 0;
+    //background-color: teal;
+    font-size: 25px;
+    //font-size: 2.5vh;
+    margin: 0 0 0 50px;
+    font-weight: 300;
   }
   .days-forecast {
     grid-column: 1/7;
     grid-template-columns: repeat(7, 1fr);
-    justify-items: start;
+    //justify-self: start;
+    //justify-items: start;
+    overflow: scroll;
+    i {
+      font-size: 40px;
+      padding: 10px;
+      margin: 5px;
+      font-weight: 400;
+    }
+
+    p{
+      font-size: 20px;
+      padding: 0;
+      margin: 0;
+      font-weight: 300;
+    }
   }
 }
 .orange {
