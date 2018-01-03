@@ -133,12 +133,12 @@ class Result extends Component {
     return (
       <div className="container">
         <div className="header">
-          <p>
-            <span>
-              <img src={arrow} onClick={() => this.goBack()} />
-            </span>
-            {data.specificData.name}
-          </p>
+          <div className="arrow">
+            <img src={arrow} onClick={() => this.goBack()} />
+          </div>
+          <div className="">
+            <h2>{data.specificData.name}</h2>
+          </div>
         </div>
         <div className="switch-container">
           <label className="switch">

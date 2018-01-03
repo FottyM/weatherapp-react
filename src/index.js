@@ -14,8 +14,7 @@ import { Route } from 'react-router';
 import throttle from 'lodash/throttle';
 
 import './index.css';
-import App from './App';
-import Result from './containers/Result';
+import { App, Result } from './containers';
 import { loadState, saveState } from './localStore';
 
 import registerServiceWorker from './registerServiceWorker';

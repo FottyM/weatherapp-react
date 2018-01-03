@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
+import '../style/App.css';
 import PropTypes from 'prop-types';
 
 import {
   findByLocation,
   updateLocationName,
   findByGeoLocation
-} from './actions/weatherAction';
+} from '../actions/weatherAction';
 
 class App extends Component {
   handleSubmit(e) {
@@ -62,8 +62,7 @@ class App extends Component {
               </form>
             </div>
             <div className="texts">
-              <p>or</p>
-              {/*<br />*/}
+              <p>or</p>{' '}
               <p className="center">
                 use my{' '}
                 <span className="dotted " onClick={() => this.handleClick()}>
