@@ -52,7 +52,6 @@ const weatherReducer = (state = initialState, action) => {
       };
 
     case 'FIND_BY_GEOLOCATION_ERROR':
-      console.log(action.payload, 'we are in the reducer');
       return { ...state, errorMessageGeolocation: action.payload };
 
     case 'START_LOADING':

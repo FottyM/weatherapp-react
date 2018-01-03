@@ -46,8 +46,6 @@ class App extends Component {
       errorMessageGeolocation
     } = this.props;
 
-    console.log(errorMessageGeolocation, 'container');
-
     const isLoading = loading => {
       if (loading) {
         return (
@@ -106,15 +104,16 @@ class App extends Component {
 }
 
 App.propTypes = {
-  findByLocation: PropTypes.func.isRequired,
-  updateLocationName: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  errorMessageGeolocation: PropTypes.string,
   findByGeoLocation: PropTypes.func.isRequired,
+  findByLocation: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   location: PropTypes.string.isRequired,
+  updateLocationName: PropTypes.func.isRequired,
   dataForGivenLocation: PropTypes.object,
   dataForGivenLocationF: PropTypes.object,
-  unitOfMeasure: PropTypes.string,
-  loading: PropTypes.bool,
-  errorMessage: PropTypes.object
+  unitOfMeasure: PropTypes.string
 };
 
 const mapStateToProps = state => {
