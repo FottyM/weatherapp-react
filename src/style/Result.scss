@@ -32,7 +32,7 @@ $font_1: sans-serif;
   align-self: center;
   text-align: end;
   font-size: 20px;
-  font-weight: 100;
+  font-weight: 300;
   .title{
     text-align: start !important;
     padding-right: 20px;
@@ -65,7 +65,7 @@ $font_1: sans-serif;
   margin: 0;
   align-items: center;
   > * {
-    font-size: 2vh;
+    font-size: 2.5vw;
   }
 }
 .big-temp {
@@ -265,6 +265,7 @@ input {
 
 .arrow{
   cursor: pointer;
+  font-size: 5px;
 }
 
 .red-alert{

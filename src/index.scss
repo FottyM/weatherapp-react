@@ -24,6 +24,7 @@ body {
     margin: 60px 7% auto 7%;
     box-shadow: 0 4px 8px 0 $black_20, 0 6px 20px 0 $black_19;
     min-height: 500px;
+    overflow: scroll;
     div {
         padding: 10px;
     }
