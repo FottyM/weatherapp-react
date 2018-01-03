@@ -5,6 +5,7 @@ $color_blue_bayoux_approx: #4b6772;
 $color_chestnut_rose_approx: #c76060;
 $white: white;
 $color_dodger_blue_approx: #2196f3;
+$red_alert: red;
 
 //fonts
 $font_0: Roboto;
@@ -264,4 +265,9 @@ input {
 
 .arrow{
   cursor: pointer;
+}
+
+.red-alert{
+  color: $red_alert;
+  font-size: 50px;
 }

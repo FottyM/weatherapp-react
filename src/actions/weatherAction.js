@@ -10,48 +10,53 @@ export function findByLocation(location) {
       payload: true
     });
 
-    const generalData = await axios
-      .get(findByLocationURL(location, 'c', 'g', API_KEY))
-      .then(res => res.data)
-      .catch(error => error.response.data);
+    axios
+      .all([
+        axios.get(findByLocationURL(location, 'c', 'g', API_KEY)),
+        axios.get(findByLocationURL(location, 'c', 's', API_KEY)),
+        axios.get(findByLocationURL(location, 'f', 'g', API_KEY)),
+        axios.get(findByLocationURL(location, 'f', 's', API_KEY))
+      ])
+      .then(
+        axios.spread(
+          (
+            generalData,
+            specificData,
+            generalDataFahrenheit,
+            specificDataFahrenheit
+          ) => {
+            dispatch({
+              type: 'FIND_BY_LOCATION',
+              payload: {
+                generalData: generalData.data,
+                specificData: specificData.data,
+                generalDataFahrenheit: generalDataFahrenheit.data,
+                specificDataFahrenheit: specificDataFahrenheit.data
+              }
+            });
 
-    const specificData = await axios
-      .get(findByLocationURL(location, 'c', 's', API_KEY))
-      .then(res => res.data)
-      .catch(error => error.response.data);
+            dispatch({
+              type: 'STOP_LOADING',
+              payload: false
+            });
 
-    const generalDataFahrenheit = await axios
-      .get(findByLocationURL(location, 'f', 'g', API_KEY))
-      .then(res => res.data)
-      .catch(error => error.response.data);
-
-    const specificDataFahrenheit = await axios
-      .get(findByLocationURL(location, 'f', 's', API_KEY))
-      .then(res => res.data)
-      .catch(error => {
-        //FIXME: Change it later
+            dispatch(push('/search'));
+          }
+        )
+      )
+      .catch(e => {
         dispatch({
           type: 'FIND_BY_LOCATION_ERROR',
-          payload: error.response.data
+          payload: e.response.data
         });
+
+        setTimeout(() => {
+          dispatch({
+            type: 'STOP_LOADING',
+            payload: false
+          });
+        }, 3000);
       });
-
-    dispatch({
-      type: 'FIND_BY_LOCATION',
-      payload: {
-        generalData,
-        specificData,
-        generalDataFahrenheit,
-        specificDataFahrenheit
-      }
-    });
-
-    dispatch({
-      type: 'STOP_LOADING',
-      payload: false
-    });
-
-    dispatch(push('/search'));
   };
 }
 
@@ -106,6 +111,14 @@ export function findByGeoLocation() {
           type: 'FIND_BY_GEOLOCATION_ERROR',
           payload: error
         });
+
+        // setTimeout( () => {
+        //
+        //   dispatch({
+        //         type: 'STOP_LOADING',
+        //         payload: false
+        //     });
+        // }, 5000)
       }
     );
   };

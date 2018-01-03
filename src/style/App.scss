@@ -3,6 +3,7 @@ $color_mountain_mist_approx: #999;
 $color_salmon_approx: #fe806a;
 $color_blue_bayoux_approx: #4b6772;
 $white: #fff;
+$red_alert: red;
 
 .home-container {
   display: grid;
@@ -10,6 +11,7 @@ $white: #fff;
   grid-auto-rows: minmax(160px, 166.6px);
   justify-items: center;
   align-items: center;
+  text-align: center;
 }
 .dotted {
   border-bottom: 1px dashed $color_mountain_mist_approx;
@@ -60,4 +62,9 @@ input[type=text] {
     margin: 0;
     font-size: 1.3em;
   }
+}
+.red-alert{
+  color: $red_alert;
+  font-size: 20px;
+  text-align: center;
 }

@@ -8,6 +8,7 @@ import '../style/weather-icons/css/weather-icons.css';
 import '../style/Result.css';
 import arrow from '../style/back.svg';
 import { changeUnit, goBack } from '../actions/weatherAction';
+import { FullDayForecast } from '../components';
 
 class Result extends Component {
   capitalize(string) {
@@ -27,28 +28,7 @@ class Result extends Component {
       })
       .filter(x => x);
 
-    return (
-      <table>
-        <tbody>
-          <tr>
-            <td className="title">Morning</td>
-            <td>{`${data[3].morn} ${this.setSymbol()}`}</td>
-          </tr>
-          <tr>
-            <td className="title">Day</td>
-            <td>{`${data[0].day} ${this.setSymbol()}`}</td>
-          </tr>
-          <tr>
-            <td className="title">Evening</td>
-            <td>{`${data[2].eve} ${this.setSymbol()}`}</td>
-          </tr>
-          <tr>
-            <td className="title">Night</td>
-            <td>{`${data[1].night} ${this.setSymbol()}`}</td>
-          </tr>
-        </tbody>
-      </table>
-    );
+    return <FullDayForecast data={data} setSymbol={this.setSymbol()} />;
   }
 
   setDay(date) {

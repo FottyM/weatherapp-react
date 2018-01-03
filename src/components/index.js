@@ -1,3 +1,3 @@
-import DaysForecast from './DayForecast';
+import FullDayForecast from './FullDayForecast';
 
-export { DaysForecast };
+export { FullDayForecast };

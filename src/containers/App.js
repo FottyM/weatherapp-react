@@ -10,6 +10,10 @@ import {
 } from '../actions/weatherAction';
 
 class App extends Component {
+  capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const { location } = this.props;
@@ -21,13 +25,25 @@ class App extends Component {
     this.props.updateLocationName(location);
   }
 
+  renderError(errorMessage) {
+    if (Object.keys(errorMessage).length > 0) {
+      return (
+        <p className="red-alert">{this.capitalize(errorMessage.message)}</p>
+      );
+    }
+  }
+
   handleClick() {
     this.props.findByGeoLocation();
   }
 
   render() {
-    const { location, loading } = this.props;
-
+    const { location, loading, errorMessage } = this.props;
+    console.log(Object.keys(errorMessage), 'message');
+    console.log(errorMessage, Object.keys(errorMessage));
+    console.log(this.props.errorMessage, Object.keys(errorMessage));
+    console.log(Object.keys(errorMessage));
+    // debugger
     const isLoading = loading => {
       if (loading) {
         return (
@@ -39,6 +55,7 @@ class App extends Component {
                 aria-hidden="true"
               />
               <p>Loading...</p>
+              {this.renderError(errorMessage)}
             </div>
             <div />
           </div>
