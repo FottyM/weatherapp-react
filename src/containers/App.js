@@ -25,7 +25,7 @@ class App extends Component {
     this.props.updateLocationName(location);
   }
 
-  renderError(errorMessage) {
+  renderError(errorMessage, location) {
     if (Object.keys(errorMessage).length > 0) {
       return (
         <p className="red-alert">{this.capitalize(errorMessage.message)}</p>

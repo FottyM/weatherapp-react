@@ -4,7 +4,7 @@ import { push } from 'react-router-redux';
 const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
 export function findByLocation(location) {
-  return async dispatch => {
+  return dispatch => {
     dispatch({
       type: 'START_LOADING',
       payload: true
@@ -69,42 +69,78 @@ export function findByGeoLocation() {
 
     navigator.geolocation.getCurrentPosition(
       async geolocation => {
-        const generalData = await axios
-          .get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
-          .then(res => res.data)
-          .catch(error => error);
+        axios
+          .all([
+            axios.get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY)),
+            axios.get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY)),
+            axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY)),
+            axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
+          ])
+          .then(
+            axios.spread(
+              (
+                generalData,
+                specificData,
+                generalDataFahrenheit,
+                specificDataFahrenheit
+              ) => {
+                dispatch({
+                  type: 'FIND_BY_GEOLOCATION',
+                  payload: {
+                    generalData: generalData.data,
+                    specificData: specificData.data,
+                    generalDataFahrenheit: generalDataFahrenheit.data,
+                    specificDataFahrenheit: specificDataFahrenheit.data
+                  }
+                });
 
-        const specificData = await axios
-          .get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY))
-          .then(res => res.data)
-          .catch(error => error);
+                dispatch({
+                  type: 'STOP_LOADING',
+                  payload: false
+                });
 
-        const generalDataFahrenheit = await axios
-          .get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
-          .then(res => res.data)
-          .catch(error => error);
+                dispatch(push('/search'));
+              }
+            )
+          )
+          .catch(e => {});
 
-        const specificDataFahrenheit = await axios
-          .get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
-          .then(res => res.data)
-          .catch(error => error);
+        // const generalData = await axios
+        //   .get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
+        //   .then(res => res.data)
+        //   .catch(error => error);
+        //
+        // const specificData = await axios
+        //   .get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY))
+        //   .then(res => res.data)
+        //   .catch(error => error);
+        //
+        // const generalDataFahrenheit = await axios
+        //   .get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
+        //   .then(res => res.data)
+        //   .catch(error => error);
+        //
+        // const specificDataFahrenheit = await axios
+        //   .get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
+        //   .then(res => res.data)
+        //   .catch(error => error);
 
-        dispatch({
-          type: 'FIND_BY_GEOLOCATION',
-          payload: {
-            generalData,
-            specificData,
-            generalDataFahrenheit,
-            specificDataFahrenheit
-          }
-        });
-
-        dispatch({
-          type: 'STOP_LOADING',
-          payload: false
-        });
-
-        dispatch(push('/search'));
+        // dispatch({
+        //   type: 'FIND_BY_GEOLOCATION',
+        //   payload: {
+        //     generalData,
+        //     specificData,
+        //     generalDataFahrenheit,
+        //     specificDataFahrenheit
+        //   }
+        // });
+        //
+        // dispatch({
+        //   type: 'STOP_LOADING',
+        //   payload: false
+        // });
+        //
+        // dispatch(push('/search'));
       },
       error => {
         dispatch({
