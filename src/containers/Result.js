@@ -31,25 +31,25 @@ class Result extends Component {
       <table>
         <tbody>
           <tr>
-            <td>Morning</td>
+            <td className="title">Morning</td>
             <td>
               {data[3].morn} {this.setSymbol()}
             </td>
           </tr>
           <tr>
-            <td>Day</td>
+            <td className="title">Day</td>
             <td>
               {data[0].day} {this.setSymbol()}
             </td>
           </tr>
           <tr>
-            <td>Evening</td>
+            <td className="title">Evening</td>
             <td>
               {data[2].eve} {this.setSymbol()}{' '}
             </td>
           </tr>
           <tr>
-            <td>Night</td>
+            <td className="title">Night</td>
             <td>
               {data[1].night} {this.setSymbol()}
             </td>
@@ -127,8 +127,6 @@ class Result extends Component {
       unit = this.props.unitOfMeasure,
       data = this.changedUnitOfMeasure(unit),
       sevenDaysForecast = data.generalData.list;
-
-    console.log(this.props);
 
     return (
       <div className="container">

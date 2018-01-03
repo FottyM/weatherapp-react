@@ -34,7 +34,10 @@ class App extends Component {
           <div className="home-container">
             <div />
             <div>
-              <i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true" />
+              <i
+                className="fa fa-refresh fa-spin fa-3x fa-fw"
+                aria-hidden="true"
+              />
               <p>Loading...</p>
             </div>
             <div />
