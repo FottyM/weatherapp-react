@@ -4,7 +4,8 @@ let initialState = {
   dataForGivenLocationF: {},
   unitOfMeasure: 'c',
   loading: false,
-  errorMessage: {}
+  errorMessage: '',
+  errorMessageGeolocation: ''
 };
 
 const weatherReducer = (state = initialState, action) => {
@@ -27,11 +28,11 @@ const weatherReducer = (state = initialState, action) => {
         ...state,
         dataForGivenLocation,
         dataForGivenLocationF,
-        errorMessage: {}
+        errorMessage: ''
       };
 
     case 'FIND_BY_LOCATION_ERROR':
-      return { ...state, errorMessage: { ...action.payload } };
+      return { ...state, errorMessage: action.payload };
 
     case 'FIND_BY_GEOLOCATION':
       dataForGivenLocation = {
@@ -51,7 +52,8 @@ const weatherReducer = (state = initialState, action) => {
       };
 
     case 'FIND_BY_GEOLOCATION_ERROR':
-      return { ...state, errorMessage: action.payload };
+      console.log(action.payload, 'we are in the reducer');
+      return { ...state, errorMessageGeolocation: action.payload };
 
     case 'START_LOADING':
       return { ...state, loading: action.payload };

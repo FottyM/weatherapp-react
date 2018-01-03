@@ -47,10 +47,14 @@ export function findByLocation(location) {
       .catch(e => {
         dispatch({
           type: 'FIND_BY_LOCATION_ERROR',
-          payload: e.response.data
+          payload: e.response.data.message
         });
 
         setTimeout(() => {
+          dispatch({
+            type: 'FIND_BY_LOCATION_ERROR',
+            payload: ''
+          });
           dispatch({
             type: 'STOP_LOADING',
             payload: false
@@ -103,58 +107,40 @@ export function findByGeoLocation() {
               }
             )
           )
-          .catch(e => {});
+          .catch(e => {
+            dispatch({
+              type: 'FIND_BY_GEOLOCATION_ERROR',
+              payload: e.message
+            });
 
-        // const generalData = await axios
-        //   .get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY))
-        //   .then(res => res.data)
-        //   .catch(error => error);
-        //
-        // const specificData = await axios
-        //   .get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY))
-        //   .then(res => res.data)
-        //   .catch(error => error);
-        //
-        // const generalDataFahrenheit = await axios
-        //   .get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
-        //   .then(res => res.data)
-        //   .catch(error => error);
-        //
-        // const specificDataFahrenheit = await axios
-        //   .get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
-        //   .then(res => res.data)
-        //   .catch(error => error);
-
-        // dispatch({
-        //   type: 'FIND_BY_GEOLOCATION',
-        //   payload: {
-        //     generalData,
-        //     specificData,
-        //     generalDataFahrenheit,
-        //     specificDataFahrenheit
-        //   }
-        // });
-        //
-        // dispatch({
-        //   type: 'STOP_LOADING',
-        //   payload: false
-        // });
-        //
-        // dispatch(push('/search'));
+            setTimeout(() => {
+              dispatch({
+                type: 'FIND_BY_GEOLOCATION_ERROR',
+                payload: ''
+              });
+              dispatch({
+                type: 'STOP_LOADING',
+                payload: false
+              });
+            }, 5000);
+          });
       },
       error => {
         dispatch({
           type: 'FIND_BY_GEOLOCATION_ERROR',
-          payload: error
+          payload: error.message
         });
 
-        // setTimeout( () => {
-        //
-        //   dispatch({
-        //         type: 'STOP_LOADING',
-        //         payload: false
-        //     });
-        // }, 5000)
+        setTimeout(() => {
+          dispatch({
+            type: 'FIND_BY_GEOLOCATION_ERROR',
+            payload: ''
+          });
+          dispatch({
+            type: 'STOP_LOADING',
+            payload: false
+          });
+        }, 5000);
       }
     );
   };

@@ -17,7 +17,10 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { location } = this.props;
-    this.props.findByLocation(location);
+    if (location.length > 0) {
+      this.props.findByLocation(location);
+    }
+    return;
   }
 
   handleChange(e) {
@@ -26,10 +29,8 @@ class App extends Component {
   }
 
   renderError(errorMessage) {
-    if (Object.keys(errorMessage).length > 0) {
-      return (
-        <p className="red-alert">{this.capitalize(errorMessage.message)}</p>
-      );
+    if (errorMessage.length > 0) {
+      return <p className="red-alert">{this.capitalize(errorMessage)}</p>;
     }
   }
 
@@ -38,12 +39,15 @@ class App extends Component {
   }
 
   render() {
-    const { location, loading, errorMessage } = this.props;
-    console.log(Object.keys(errorMessage), 'message');
-    console.log(errorMessage, Object.keys(errorMessage));
-    console.log(this.props.errorMessage, Object.keys(errorMessage));
-    console.log(Object.keys(errorMessage));
-    // debugger
+    const {
+      location,
+      loading,
+      errorMessage,
+      errorMessageGeolocation
+    } = this.props;
+
+    console.log(errorMessageGeolocation, 'container');
+
     const isLoading = loading => {
       if (loading) {
         return (
@@ -56,6 +60,7 @@ class App extends Component {
               />
               <p>Loading...</p>
               {this.renderError(errorMessage)}
+              {this.renderError(errorMessageGeolocation)}
             </div>
             <div />
           </div>
