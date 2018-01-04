@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import '../style/App.css';
 import PropTypes from 'prop-types';
 
 import { LoadingScreen } from '../components';
-import { capitalize } from '../helpers';
 
-import {
-  findByLocation,
-  updateLocationName,
-  findByGeoLocation
-} from '../actions/weatherAction';
+import { updateLocationName } from '../actions/weatherAction';
 
 class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { location } = this.props;
     if (location.length > 0) {
-      this.props.findByLocation(location);
+      // this.props.findByLocation(location);
+      this.props.showResuts();
     }
   }
 
@@ -26,14 +23,9 @@ class App extends Component {
     this.props.updateLocationName(location);
   }
 
-  renderError(message) {
-    if (message.length > 0) {
-      return <p className="red-alert">{capitalize(message)}</p>;
-    }
-  }
-
   handleClick() {
-    this.props.findByGeoLocation();
+    this.props.showResuts();
+    // this.props.findByGeoLocation();
   }
 
   render() {
@@ -93,16 +85,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  errorMessage: PropTypes.string,
-  errorMessageGeolocation: PropTypes.string,
-  findByGeoLocation: PropTypes.func.isRequired,
-  findByLocation: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
   location: PropTypes.string.isRequired,
   updateLocationName: PropTypes.func.isRequired,
-  dataForGivenLocation: PropTypes.object,
-  dataForGivenLocationF: PropTypes.object,
-  unitOfMeasure: PropTypes.string
+  showResuts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -113,14 +98,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    findByLocation(location) {
-      dispatch(findByLocation(location));
-    },
     updateLocationName(location) {
       dispatch(updateLocationName(location));
     },
-    findByGeoLocation() {
-      dispatch(findByGeoLocation());
+    showResuts() {
+      dispatch(push('/search'));
     }
   };
 };

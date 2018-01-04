@@ -72,7 +72,7 @@ export function findByGeoLocation() {
     });
 
     navigator.geolocation.getCurrentPosition(
-      async geolocation => {
+      geolocation => {
         axios
           .all([
             axios.get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY)),
@@ -94,7 +94,8 @@ export function findByGeoLocation() {
                     generalData: generalData.data,
                     specificData: specificData.data,
                     generalDataFahrenheit: generalDataFahrenheit.data,
-                    specificDataFahrenheit: specificDataFahrenheit.data
+                    specificDataFahrenheit: specificDataFahrenheit.data,
+                    currentGeolocation: geolocation
                   }
                 });
 
@@ -102,8 +103,6 @@ export function findByGeoLocation() {
                   type: 'STOP_LOADING',
                   payload: false
                 });
-
-                dispatch(push('/search'));
               }
             )
           )
@@ -122,7 +121,7 @@ export function findByGeoLocation() {
                 type: 'STOP_LOADING',
                 payload: false
               });
-            }, 5000);
+            }, 3000);
           });
       },
       error => {
@@ -140,7 +139,7 @@ export function findByGeoLocation() {
             type: 'STOP_LOADING',
             payload: false
           });
-        }, 5000);
+        }, 3000);
       }
     );
   };
