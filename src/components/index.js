@@ -1,3 +1,4 @@
 import FullDayForecast from './FullDayForecast';
+import LoadingScreen from './LoadingScreen';
 
-export { FullDayForecast };
+export { FullDayForecast, LoadingScreen };

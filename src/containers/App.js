@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import '../style/App.css';
 import PropTypes from 'prop-types';
 
+import { LoadingScreen } from '../components';
+import { capitalize } from '../helpers';
+
 import {
   findByLocation,
   updateLocationName,
@@ -10,17 +13,12 @@ import {
 } from '../actions/weatherAction';
 
 class App extends Component {
-  capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     const { location } = this.props;
     if (location.length > 0) {
       this.props.findByLocation(location);
     }
-    return;
   }
 
   handleChange(e) {
@@ -30,7 +28,7 @@ class App extends Component {
 
   renderError(message) {
     if (message.length > 0) {
-      return <p className="red-alert">{this.capitalize(message)}</p>;
+      return <p className="red-alert">{capitalize(message)}</p>;
     }
   }
 
@@ -49,19 +47,10 @@ class App extends Component {
     const isLoading = loading => {
       if (loading) {
         return (
-          <div className="home-container">
-            <div />
-            <div>
-              <i
-                className="fa fa-refresh fa-spin fa-3x fa-fw"
-                aria-hidden="true"
-              />
-              <p>Loading...</p>
-              {this.renderError(errorMessage)}
-              {this.renderError(errorMessageGeolocation)}
-            </div>
-            <div />
-          </div>
+          <LoadingScreen
+            errorMessage={errorMessage}
+            errorMessageGeolocation={errorMessageGeolocation}
+          />
         );
       }
       return (
