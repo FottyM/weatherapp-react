@@ -14,7 +14,7 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { location } = this.props;
-    if (location.length > 0) {
+    if (location.length > 0 && typeof location !== 'undefined') {
       this.props.showResultsByLocation(location);
     }
   }
@@ -27,7 +27,7 @@ class App extends Component {
   handleClick() {
     const { location } = this.props;
 
-    if (location.length > 0) {
+    if (location.length > 0 && typeof location !== 'undefined') {
       this.props.clearLocation();
       this.props.showResultsByGeolocation();
     }
