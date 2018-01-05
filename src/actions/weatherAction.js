@@ -1,22 +1,23 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
+import moment from 'moment';
 
 const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
 export function findByLocation(location) {
-  return dispatch => {
-    dispatch({
-      type: 'START_LOADING',
-      payload: true
-    });
+  const timeStamp = moment().format();
 
-    axios
+  return async dispatch => {
+    dispatch({ type: 'START_LOADING' });
+
+    return await axios
       .all([
         axios.get(findByLocationURL(location, 'c', 'g', API_KEY)),
         axios.get(findByLocationURL(location, 'c', 's', API_KEY)),
         axios.get(findByLocationURL(location, 'f', 'g', API_KEY)),
         axios.get(findByLocationURL(location, 'f', 's', API_KEY))
       ])
+
       .then(
         axios.spread(
           (
@@ -28,18 +29,19 @@ export function findByLocation(location) {
             dispatch({
               type: 'FIND_BY_LOCATION',
               payload: {
-                generalData: generalData.data,
-                specificData: specificData.data,
-                generalDataFahrenheit: generalDataFahrenheit.data,
-                specificDataFahrenheit: specificDataFahrenheit.data
+                dataForGivenLocation: {
+                  generalData: generalData.data,
+                  specificData: specificData.data
+                },
+                dataForGivenLocationF: {
+                  generalData: generalDataFahrenheit.data,
+                  specificData: specificDataFahrenheit.data
+                },
+                timeStamp
               }
             });
 
-            dispatch({
-              type: 'STOP_LOADING',
-              payload: false
-            });
-
+            dispatch({ type: 'STOP_LOADING' });
             dispatch(push('/search'));
           }
         )
@@ -51,34 +53,31 @@ export function findByLocation(location) {
         });
 
         setTimeout(() => {
+          dispatch(push('/'));
           dispatch({
             type: 'FIND_BY_LOCATION_ERROR',
             payload: ''
           });
-          dispatch({
-            type: 'STOP_LOADING',
-            payload: false
-          });
+
+          dispatch({ type: 'STOP_LOADING' });
         }, 3000);
       });
   };
 }
 
 export function findByGeoLocation() {
-  return dispatch => {
-    dispatch({
-      type: 'START_LOADING',
-      payload: true
-    });
+  const timeStamp = moment().format();
+  return async dispatch => {
+    dispatch({ type: 'START_LOADING' });
 
-    navigator.geolocation.getCurrentPosition(
+    return await navigator.geolocation.getCurrentPosition(
       geolocation => {
         axios
           .all([
             axios.get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY)),
             axios.get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY)),
             axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY)),
-            axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY))
+            axios.get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
           ])
           .then(
             axios.spread(
@@ -91,18 +90,23 @@ export function findByGeoLocation() {
                 dispatch({
                   type: 'FIND_BY_GEOLOCATION',
                   payload: {
-                    generalData: generalData.data,
-                    specificData: specificData.data,
-                    generalDataFahrenheit: generalDataFahrenheit.data,
-                    specificDataFahrenheit: specificDataFahrenheit.data,
-                    currentGeolocation: geolocation
+                    dataForGivenLocation: {
+                      generalData: generalData.data,
+                      specificData: specificData.data
+                    },
+                    dataForGivenLocationF: {
+                      generalData: generalDataFahrenheit.data,
+                      specificData: specificDataFahrenheit.data
+                    },
+                    currentGeolocation: {
+                      lat: geolocation.coords.latitude,
+                      lng: geolocation.coords.longitude
+                    },
+                    timeStamp
                   }
                 });
 
-                dispatch({
-                  type: 'STOP_LOADING',
-                  payload: false
-                });
+                dispatch({ type: 'STOP_LOADING' });
               }
             )
           )
@@ -111,16 +115,15 @@ export function findByGeoLocation() {
               type: 'FIND_BY_GEOLOCATION_ERROR',
               payload: e.message
             });
+            dispatch(push('/'));
 
             setTimeout(() => {
+              dispatch(push('/'));
               dispatch({
                 type: 'FIND_BY_GEOLOCATION_ERROR',
                 payload: ''
               });
-              dispatch({
-                type: 'STOP_LOADING',
-                payload: false
-              });
+              dispatch({ type: 'STOP_LOADING' });
             }, 3000);
           });
       },
@@ -131,14 +134,12 @@ export function findByGeoLocation() {
         });
 
         setTimeout(() => {
+          dispatch(push('/'));
           dispatch({
             type: 'FIND_BY_GEOLOCATION_ERROR',
             payload: ''
           });
-          dispatch({
-            type: 'STOP_LOADING',
-            payload: false
-          });
+          dispatch({ type: 'STOP_LOADING' });
         }, 3000);
       }
     );

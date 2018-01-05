@@ -14,24 +14,39 @@ import {
   goBack
 } from '../actions/weatherAction';
 import { capitalize } from '../helpers';
-import { FullDayForecast } from '../components';
-import LoadingScreen from '../components/LoadingScreen';
+import { FullDayForecast, LoadingScreen } from '../components';
 
 class Result extends Component {
   goBack() {
     this.props.goBack();
   }
-  componentWillMount() {
-    console.log('componentWillMount');
-    const { location, currentGeolocation } = this.props;
-    if (location.length > 0) {
-      this.props.findByLocation(location);
-    }
 
-    if (Object.keys(currentGeolocation).length > 0) {
-      this.props.findByGeoLocation();
+  timeDifference() {
+    const { timeStamp, location, currentGeolocation } = this.props;
+    const timeSpan = moment().format();
+    const timeDiff = moment(timeSpan).diff(timeStamp, 'minutes');
+    if (timeDiff >= 5) {
+      if (location.length > 0) {
+        this.props.findByLocation(location);
+      }
+
+      if (Object.keys(currentGeolocation).length > 0) {
+        this.props.findByGeoLocation();
+      }
     }
   }
+
+  componentWillMount() {
+    this.timeDifference();
+    console.log(this.timeDifference(), 'Will Mount');
+  }
+
+  // componentDidMount(){
+  //     setInterval( x => {
+  //         this.timeDifference()
+  //     }, 1000)
+  //
+  // }
 
   renderHourlyTemp(data) {
     data = Object.keys(data || {})
@@ -109,10 +124,6 @@ class Result extends Component {
   }
 
   render() {
-    const todaysDate = moment().format('dddd, MMMM Do YYYY'),
-      unit = this.props.unitOfMeasure,
-      data = this.changedUnitOfMeasure(unit),
-      sevenDaysForecast = data.generalData.list;
     const { loading, errorMessage, errorMessageGeolocation } = this.props;
 
     const isLoading = loading => {
@@ -124,71 +135,67 @@ class Result extends Component {
           />
         );
       }
-
-      return (
-        <div className="container">
-          <div className="header">
-            <div className="arrow">
-              <img src={arrow} onClick={() => this.goBack()} />
-            </div>
-            <div className="">
-              <h2>{data.specificData.name}</h2>
-            </div>
-          </div>
-          <div className="switch-container">
-            <label className="switch">
-              <input
-                type="checkbox"
-                onClick={e => this.toggleUnitOfMeasure(e)}
-              />
-              <div className="slider round">
-                <span className="on">&#8451;</span>
-                <span className="off">&#8457;</span>
+      if (!loading) {
+        const todaysDate = moment().format('dddd, MMMM Do YYYY');
+        const unit = this.props.unitOfMeasure;
+        const data = this.changedUnitOfMeasure(unit);
+        const sevenDaysForecast = data.generalData.list;
+        return (
+          <div className="container">
+            <div className="header">
+              <div className="arrow">
+                <img src={arrow} alt="_back" onClick={() => this.goBack()} />
               </div>
-            </label>
+              <div className="">
+                <h2>{data.specificData.name}</h2>
+              </div>
+            </div>
+            <div className="switch-container">
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onClick={e => this.toggleUnitOfMeasure(e)}
+                />
+                <div className="slider round">
+                  <span className="on">&#8451;</span>
+                  <span className="off">&#8457;</span>
+                </div>
+              </label>
+            </div>
+            <div className="date-day">
+              <h1>{todaysDate} </h1>
+              <h2> {capitalize(data.specificData.weather[0].description)} </h2>
+            </div>
+            <div className="big-temp orange">
+              <h2>{`${Math.floor(
+                data.specificData.main.temp
+              )} ${this.setSymbol()}`}</h2>
+            </div>
+            <div className="big-icon orange">
+              <h2>
+                <i
+                  className={this.showIconDayAndNightShift(
+                    data.specificData.weather[0].id
+                  )}
+                />
+              </h2>
+            </div>
+            <div className="daily-forecast orange">
+              {this.renderHourlyTemp(data.generalData.list[0].temp)}
+            </div>
+            <div className="days-forecast">
+              {sevenDaysForecast.map((el, index) =>
+                this.renderSevenDaysForecast(el, index)
+              )}
+            </div>
           </div>
-          <div className="date-day">
-            <h1>{todaysDate} </h1>
-            <h2> {capitalize(data.specificData.weather[0].description)} </h2>
-          </div>
-          <div className="big-temp orange">
-            <h2>{`${Math.floor(
-              data.specificData.main.temp
-            )} ${this.setSymbol()}`}</h2>
-          </div>
-          <div className="big-icon orange">
-            <h2>
-              <i
-                className={this.showIconDayAndNightShift(
-                  data.specificData.weather[0].id
-                )}
-              />
-            </h2>
-          </div>
-          <div className="daily-forecast orange">
-            {this.renderHourlyTemp(data.generalData.list[0].temp)}
-          </div>
-          <div className="days-forecast">
-            {sevenDaysForecast.map((el, index) =>
-              this.renderSevenDaysForecast(el, index)
-            )}
-          </div>
-        </div>
-      );
+        );
+      }
     };
 
     return <div>{isLoading(loading)}</div>;
   }
 }
-
-Result.propTypes = {
-  changeUnit: PropTypes.any.isRequired,
-  dataForGivenLocation: PropTypes.object.isRequired,
-  dataForGivenLocationF: PropTypes.object.isRequired,
-  goBack: PropTypes.any,
-  unitOfMeasure: PropTypes.string.isRequired,
-  location: PropTypes.string
-};
 
 const mapStateToProps = state => {
   return {
@@ -214,3 +221,18 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Result);
+
+Result.propTypes = {
+  changeUnit: PropTypes.func.isRequired,
+  currentGeolocation: PropTypes.object,
+  dataForGivenLocation: PropTypes.object.isRequired,
+  dataForGivenLocationF: PropTypes.object.isRequired,
+  errorMessage: PropTypes.string,
+  errorMessageGeolocation: PropTypes.string,
+  findByGeoLocation: PropTypes.func,
+  findByLocation: PropTypes.func,
+  goBack: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  location: PropTypes.string,
+  unitOfMeasure: PropTypes.string.isRequired
+};

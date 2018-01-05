@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 let initialState = {
   location: '',
   currentGeolocation: {},
@@ -6,70 +8,77 @@ let initialState = {
   unitOfMeasure: 'c',
   loading: false,
   errorMessage: '',
-  errorMessageGeolocation: ''
+  errorMessageGeolocation: '',
+  timeStamp: moment().format()
 };
 
 const weatherReducer = (state = initialState, action) => {
-  let { dataForGivenLocation, dataForGivenLocationF } = state;
-
   switch (action.type) {
     case 'UPDATE_LOCATION_NAME':
-      return { ...state, location: action.payload };
-
-    case 'FIND_BY_LOCATION':
-      dataForGivenLocation = {
-        generalData: action.payload.generalData,
-        specificData: action.payload.specificData
-      };
-      dataForGivenLocationF = {
-        generalData: action.payload.generalDataFahrenheit,
-        specificData: action.payload.specificDataFahrenheit
-      };
       return {
         ...state,
-        dataForGivenLocation,
-        dataForGivenLocationF,
+        location: action.payload
+      };
+
+    case 'FIND_BY_LOCATION':
+      return {
+        ...state,
+        ...action.payload,
         errorMessage: '',
         errorMessageGeolocation: '',
         currentGeolocation: {}
       };
 
     case 'FIND_BY_LOCATION_ERROR':
-      return { ...state, errorMessage: action.payload };
-
-    case 'FIND_BY_GEOLOCATION':
-      dataForGivenLocation = {
-        generalData: action.payload.generalData,
-        specificData: action.payload.specificData
-      };
-
-      dataForGivenLocationF = {
-        generalData: action.payload.generalDataFahrenheit,
-        specificData: action.payload.specificDataFahrenheit
-      };
       return {
         ...state,
-        dataForGivenLocation,
-        dataForGivenLocationF,
+        errorMessage: action.payload
+      };
+
+    case 'FIND_BY_GEOLOCATION':
+      return {
+        ...state,
+        ...action.payload,
         errorMessage: '',
         errorMessageGeolocation: '',
-        location: ''
+        location: '',
+        currentGeolocation: { ...action.payload.currentGeolocation }
       };
 
     case 'FIND_BY_GEOLOCATION_ERROR':
-      return { ...state, errorMessageGeolocation: action.payload };
+      return {
+        ...state,
+        errorMessageGeolocation: action.payload
+      };
 
     case 'START_LOADING':
-      return { ...state, loading: action.payload };
+      return {
+        ...state,
+        loading: true
+      };
 
     case 'STOP_LOADING':
-      return { ...state, loading: action.payload };
+      return {
+        ...state,
+        loading: false
+      };
 
     case 'CHANGE_UNIT':
-      return { ...state, unitOfMeasure: action.payload };
+      return {
+        ...state,
+        unitOfMeasure: action.payload
+      };
+
+    case 'CLEAR_LOCATION':
+      return {
+        ...state,
+        location: ''
+      };
 
     default:
-      return { ...state };
+      return {
+        ...state
+      };
   }
 };
 

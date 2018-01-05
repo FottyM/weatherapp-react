@@ -33,7 +33,7 @@ $font_1: sans-serif;
   text-align: end;
   font-size: 20px;
   font-weight: 300;
-  .title{
+  .title {
     text-align: start !important;
     padding-right: 20px;
   }
@@ -50,7 +50,6 @@ $font_1: sans-serif;
     text-align: center;
     font-size: 10px;
   }
-
 }
 .switch-container {
   justify-self: end;
@@ -60,12 +59,17 @@ $font_1: sans-serif;
   justify-self: start;
   align-self: center;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   padding: 0;
   margin: 0;
   align-items: center;
-  > * {
-    font-size: 2.5vw;
+
+  //> * {
+  //  font-size: 2.5vw;
+  //}
+  .arrow {
+    justify-self: center;
+    align-self: center;
   }
 }
 .big-temp {
@@ -77,11 +81,11 @@ $font_1: sans-serif;
     padding: 0;
     margin: 0;
     font-weight: 500;
-    letter-spacing: -.10em;
+    letter-spacing: -0.1em;
   }
 }
 .big-icon {
-  font-size: 30px;
+  font-size: 40px;
   justify-self: center;
   grid-column: span 3;
   grid-row: 3/4;
@@ -89,6 +93,12 @@ $font_1: sans-serif;
 h2 {
   padding: 0;
   margin: 0;
+}
+
+.arrow {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 @media screen and(min-width: 820px) {
   .container {
@@ -104,6 +114,10 @@ h2 {
       font-size: 40px;
     }
 
+    .arrow {
+      justify-self: center;
+      align-self: center;
+    }
   }
   .switch-container {
     grid-column: 4/7;
@@ -135,7 +149,6 @@ h2 {
       font-size: 130px;
       font-weight: 400;
       text-align: start;
-
     }
   }
 
@@ -172,12 +185,18 @@ h2 {
       font-weight: 400;
     }
 
-    p{
+    p {
       font-size: 20px;
       padding: 0;
       margin: 0;
       font-weight: 300;
     }
+  }
+
+  .arrow {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
   }
 }
 .orange {
@@ -208,16 +227,16 @@ h2 {
   right: 0;
   bottom: 0;
   background-color: $color_chestnut_rose_approx;
-  transition: .4s;
+  transition: 0.4s;
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 26px;
     width: 26px;
     left: 4px;
     bottom: 4px;
     background-color: $white;
-    transition: .4s;
+    transition: 0.4s;
   }
   &.round {
     border-radius: 34px;
@@ -263,12 +282,7 @@ input {
   font-family: $font_0, $font_1;
 }
 
-.arrow{
-  cursor: pointer;
-  font-size: 5px;
-}
-
-.red-alert{
+.red-alert {
   color: $red_alert;
   font-size: 50px;
 }
