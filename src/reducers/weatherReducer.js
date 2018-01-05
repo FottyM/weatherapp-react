@@ -42,7 +42,9 @@ const weatherReducer = (state = initialState, action) => {
         errorMessage: '',
         errorMessageGeolocation: '',
         location: '',
-        currentGeolocation: { ...action.payload.currentGeolocation }
+        currentGeolocation: {
+          ...action.payload.currentGeolocation
+        }
       };
 
     case 'FIND_BY_GEOLOCATION_ERROR':

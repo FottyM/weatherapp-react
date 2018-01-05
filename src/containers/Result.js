@@ -21,11 +21,11 @@ class Result extends Component {
     this.props.goBack();
   }
 
-  timeDifference() {
+  timeDifference(threshold) {
     const { timeStamp, location, currentGeolocation } = this.props;
     const timeSpan = moment().format();
     const timeDiff = moment(timeSpan).diff(timeStamp, 'minutes');
-    if (timeDiff >= 5) {
+    if (timeDiff >= threshold) {
       if (location.length > 0 && typeof location !== 'undefined') {
         this.props.findByLocation(location);
       }
@@ -37,15 +37,15 @@ class Result extends Component {
   }
 
   componentWillMount() {
-    this.timeDifference();
+    this.timeDifference(5);
   }
 
-  // componentDidMount(){
-  //     setInterval( x => {
-  //         this.timeDifference()
-  //     }, 1000)
-  //
-  // }
+  componentDidMount() {
+    const TEN_MINUTES = 600000;
+    setInterval(() => {
+      this.timeDifference(30);
+    }, TEN_MINUTES);
+  }
 
   renderHourlyTemp(data) {
     data = Object.keys(data || {})
