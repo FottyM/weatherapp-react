@@ -26,7 +26,7 @@ class Result extends Component {
     const timeSpan = moment().format();
     const timeDiff = moment(timeSpan).diff(timeStamp, 'minutes');
     if (timeDiff >= 5) {
-      if (location.length > 0) {
+      if (location.length > 0 && typeof location !== 'undefined') {
         this.props.findByLocation(location);
       }
 
@@ -38,7 +38,6 @@ class Result extends Component {
 
   componentWillMount() {
     this.timeDifference();
-    console.log(this.timeDifference(), 'Will Mount');
   }
 
   // componentDidMount(){
@@ -234,5 +233,6 @@ Result.propTypes = {
   goBack: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   location: PropTypes.string,
+  timeStamp: PropTypes.string.isRequired,
   unitOfMeasure: PropTypes.string.isRequired
 };
