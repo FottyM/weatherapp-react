@@ -18,7 +18,7 @@ import { App, Result } from './containers';
 import { loadState, saveState } from './localStore';
 
 import registerServiceWorker from './registerServiceWorker';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import weatherReducer from './reducers/weatherReducer';
 
 const history = createHistory();
