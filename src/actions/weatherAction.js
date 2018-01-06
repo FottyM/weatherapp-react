@@ -166,31 +166,31 @@ export function goBack() {
 
 const findByLocationURL = (location, unit, details, API_KEY) => {
   if (unit === 'c' && details === 'g') {
-    return `http://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`;
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`;
   } else if (unit === 'c' && details === 's') {
-    return `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=${API_KEY}`;
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=${API_KEY}`;
   } else if (unit === 'f' && details === 'g') {
-    return `http://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=imperial&cnt=7&APPID=${API_KEY}`;
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=imperial&cnt=7&APPID=${API_KEY}`;
   } else if (unit === 'f' && details === 's') {
-    return `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&APPID=${API_KEY}`;
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&APPID=${API_KEY}`;
   }
 };
 
 const findByGeoLocationURL = (geolocation, unit, details, API_KEY) => {
   if (unit === 'c' && details === 'g') {
-    return `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${
       geolocation.coords.latitude
     }&lon=${geolocation.coords.longitude}&units=metric&cnt=7&APPID=${API_KEY}`;
   }
 
   if (unit === 'c' && details === 's') {
-    return `http://api.openweathermap.org/data/2.5/weather?lat=${
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${
       geolocation.coords.latitude
     }&lon=${geolocation.coords.longitude}&units=metric&APPID=${API_KEY}`;
   }
 
   if (unit === 'f' && details === 'g') {
-    return `http://api.openweathermap.org/data/2.5/forecast/daily?lat=${
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${
       geolocation.coords.latitude
     }&lon=${
       geolocation.coords.longitude
@@ -198,7 +198,7 @@ const findByGeoLocationURL = (geolocation, unit, details, API_KEY) => {
   }
 
   if (unit === 'f' && details === 's') {
-    return `http://api.openweathermap.org/data/2.5/weather?lat=${
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${
       geolocation.coords.latitude
     }&lon=${geolocation.coords.longitude}&units=imperial&APPID=${API_KEY}`;
   }
