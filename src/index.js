@@ -32,7 +32,7 @@ const store = createStore(
     router: routerReducer
   }),
   persistedState,
-  composeEnhancers(applyMiddleware(logger, thunk, middleware))
+  composeEnhancers(applyMiddleware(thunk, middleware))
 );
 
 store.subscribe(
