@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import renderHTML from 'react-render-html';
+import { push } from 'react-router-redux';
 import '../style/weather-icons/css/weather-icons.css';
 
 import '../style/Result.css';
@@ -14,10 +15,11 @@ import {
   goBack
 } from '../actions/weatherAction';
 import { capitalize } from '../helpers';
-import { FullDayForecast, LoadingScreen } from '../components';
+import { FullDayForecast, LoadingScreen, FourOfour } from '../components';
 
 class Result extends Component {
-  goBack() {
+  goBack(e) {
+    console.log(e);
     this.props.goBack();
   }
 
@@ -138,57 +140,65 @@ class Result extends Component {
         const todaysDate = moment().format('dddd, MMMM Do YYYY');
         const unit = this.props.unitOfMeasure;
         const data = this.changedUnitOfMeasure(unit);
-        const sevenDaysForecast = data.generalData.list;
-        return (
-          <div className="container">
-            <div className="header">
-              <div className="arrow">
-                <img src={arrow} alt="_back" onClick={() => this.goBack()} />
-              </div>
-              <div className="">
-                <h2>{data.specificData.name}</h2>
-              </div>
-            </div>
-            <div className="switch-container">
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  onClick={e => this.toggleUnitOfMeasure(e)}
-                />
-                <div className="slider round">
-                  <span className="on">&#8451;</span>
-                  <span className="off">&#8457;</span>
+
+        if (Object.keys(data).length <= 0) {
+          return <FourOfour onClick={() => this.goBack()} />;
+        } else {
+          const sevenDaysForecast = data.generalData.list;
+          return (
+            <div className="container">
+              <div className="header">
+                <div className="arrow">
+                  <img src={arrow} alt="_back" onClick={e => this.goBack(e)} />
                 </div>
-              </label>
+                <div className="">
+                  <h2>{data.specificData.name}</h2>
+                </div>
+              </div>
+              <div className="switch-container">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    onClick={e => this.toggleUnitOfMeasure(e)}
+                  />
+                  <div className="slider round">
+                    <span className="on">&#8451;</span>
+                    <span className="off">&#8457;</span>
+                  </div>
+                </label>
+              </div>
+              <div className="date-day">
+                <h1>{todaysDate} </h1>
+                <h2>
+                  {' '}
+                  {capitalize(data.specificData.weather[0].description)}{' '}
+                </h2>
+              </div>
+              <div className="big-temp orange">
+                <h2>{`${Math.floor(
+                  data.specificData.main.temp
+                )} ${this.setSymbol()}`}</h2>
+              </div>
+              <div className="big-icon orange">
+                <h2>
+                  <i
+                    className={this.showIconDayAndNightShift(
+                      data.specificData.weather[0].id
+                    )}
+                  />
+                </h2>
+              </div>
+              <div className="daily-forecast orange">
+                {this.renderHourlyTemp(data.generalData.list[0].temp)}
+              </div>
+              <div className="days-forecast">
+                {sevenDaysForecast.map((el, index) =>
+                  this.renderSevenDaysForecast(el, index)
+                )}
+              </div>
             </div>
-            <div className="date-day">
-              <h1>{todaysDate} </h1>
-              <h2> {capitalize(data.specificData.weather[0].description)} </h2>
-            </div>
-            <div className="big-temp orange">
-              <h2>{`${Math.floor(
-                data.specificData.main.temp
-              )} ${this.setSymbol()}`}</h2>
-            </div>
-            <div className="big-icon orange">
-              <h2>
-                <i
-                  className={this.showIconDayAndNightShift(
-                    data.specificData.weather[0].id
-                  )}
-                />
-              </h2>
-            </div>
-            <div className="daily-forecast orange">
-              {this.renderHourlyTemp(data.generalData.list[0].temp)}
-            </div>
-            <div className="days-forecast">
-              {sevenDaysForecast.map((el, index) =>
-                this.renderSevenDaysForecast(el, index)
-              )}
-            </div>
-          </div>
-        );
+          );
+        }
       }
     };
 
@@ -208,7 +218,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(changeUnit(unit));
     },
     goBack() {
-      dispatch(goBack());
+      dispatch(push('/'));
     },
     findByLocation(location) {
       dispatch(findByLocation(location));

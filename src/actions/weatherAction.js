@@ -47,11 +47,17 @@ export function findByLocation(location) {
         )
       )
       .catch(e => {
-        dispatch({
-          type: 'FIND_BY_LOCATION_ERROR',
-          payload: e.response.data.message
-        });
-
+        if (e.message) {
+          dispatch({
+            type: 'FIND_BY_LOCATION_ERROR',
+            payload: e.message
+          });
+        } else {
+          dispatch({
+            type: 'FIND_BY_LOCATION_ERROR',
+            payload: e.response.data.message
+          });
+        }
         setTimeout(() => {
           dispatch(push('/'));
           dispatch({
@@ -158,10 +164,6 @@ export function changeUnit(unit) {
     type: 'CHANGE_UNIT',
     payload: unit
   };
-}
-
-export function goBack() {
-  return dispatch => dispatch(push('/'));
 }
 
 const findByLocationURL = (location, unit, details, API_KEY) => {

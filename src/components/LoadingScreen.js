@@ -8,7 +8,7 @@ const LoadingScreen = props => {
   const { errorMessage, errorMessageGeolocation } = props;
 
   const renderError = message => {
-    if (message.length > 0 || typeof message !== 'undefined') {
+    if (message.length > 0 && typeof message !== 'undefined') {
       return <p className="red-alert">{capitalize(message)}</p>;
     }
   };
