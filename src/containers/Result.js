@@ -18,8 +18,7 @@ import { capitalize } from '../helpers';
 import { FullDayForecast, LoadingScreen, FourOfour } from '../components';
 
 class Result extends Component {
-  goBack(e) {
-    console.log(e);
+  goBack() {
     this.props.goBack();
   }
 
@@ -142,7 +141,7 @@ class Result extends Component {
         const data = this.changedUnitOfMeasure(unit);
 
         if (Object.keys(data).length <= 0) {
-          return <FourOfour onClick={() => this.goBack()} />;
+          return <FourOfour goBack={() => this.goBack()} />;
         } else {
           const sevenDaysForecast = data.generalData.list;
           return (
