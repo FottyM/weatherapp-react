@@ -4,7 +4,6 @@ $color_salmon_approx: #fe806a;
 $color_blue_bayoux_approx: #4b6772;
 $white: #fff;
 $red_alert: red;
-
 .home-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -13,6 +12,7 @@ $red_alert: red;
   align-items: center;
   text-align: center;
 }
+
 .dotted {
   border-bottom: 1px dashed $color_mountain_mist_approx;
   text-decoration: none;
@@ -21,7 +21,8 @@ $red_alert: red;
     color: $color_salmon_approx;
   }
 }
-input[type=text] {
+
+input[type='text'] {
   border: none;
   border-bottom: 1px solid $color_blue_bayoux_approx;
   text-align: center;
@@ -30,6 +31,7 @@ input[type=text] {
   padding: 0;
   color: $color_blue_bayoux_approx;
 }
+
 .embed-submit-field {
   position: relative;
   font-size: 20px;
@@ -45,7 +47,7 @@ input[type=text] {
     background: $white;
     border-radius: 3px;
     padding: 10px;
-    transition: all .2s;
+    transition: all 0.2s;
     font-size: 25px;
     &:hover {
       color: $color_salmon_approx;
@@ -53,17 +55,19 @@ input[type=text] {
     }
   }
 }
-.texts{
+
+.texts {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
-  p{
+  p {
     padding: 0;
     margin: 0;
     font-size: 1.3em;
   }
 }
-.red-alert{
+
+.red-alert {
   color: $red_alert;
   font-size: 20px;
   text-align: center;
