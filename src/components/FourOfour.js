@@ -1,7 +1,7 @@
 import React from 'react';
 import '../style/App.css';
 
-const FourOfour = props => {
+const FourOFour = props => {
   const goBack = () => {
     props.goBack();
   };
@@ -9,7 +9,9 @@ const FourOfour = props => {
   return (
     <div className="home-container">
       <div>
-        <button onClick={goBack()}>back</button>
+        <button type="button" onClick={goBack()}>
+          back
+        </button>
       </div>
       <div>
         <h1> Four-O-Four </h1>
@@ -19,4 +21,4 @@ const FourOfour = props => {
   );
 };
 
-export default FourOfour;
+export default FourOFour;

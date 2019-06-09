@@ -1,39 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import '../style/App.css';
+import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
 
 import {
-  findByGeoLocation,
-  findByLocation,
-  updateLocationName
+  findByGeoLocationAction,
+  findByLocationAction,
+  updateLocationNameAction
 } from '../actions/weatherAction';
+import '../style/App.css';
 
 class App extends Component {
-  handleSubmit(e) {
+  handleSubmit = e => {
+    const { showResultsByLocation } = this.props;
     e.preventDefault();
     const { location } = this.props;
     if (location.length > 0 && typeof location !== 'undefined') {
-      this.props.showResultsByLocation(location);
+      showResultsByLocation(location);
     }
-  }
+  };
 
-  handleChange(e) {
-    let location = e.target.value;
-    this.props.updateLocationName(location);
-  }
+  handleChange = e => {
+    const location = e.target.value;
+    const { updateLocationName } = this.props;
+    updateLocationName(location);
+  };
 
-  handleClick() {
-    const { location } = this.props;
+  handleClick = () => {
+    const { location, clearLocation, showResultsByGeolocation } = this.props;
 
     if (location.length > 0 && typeof location !== 'undefined') {
-      this.props.clearLocation();
-      this.props.showResultsByGeolocation();
+      clearLocation();
+      showResultsByGeolocation();
+      return;
     }
-
-    this.props.showResultsByGeolocation();
-  }
+    showResultsByGeolocation();
+  };
 
   render() {
     const { location } = this.props;
@@ -43,15 +45,12 @@ class App extends Component {
         <div />
         <div>
           <div>
-            <form
-              onSubmit={e => this.handleSubmit(e)}
-              className="embed-submit-field"
-            >
+            <form onSubmit={this.handleSubmit} className="embed-submit-field">
               <input
                 type="text"
                 name="location"
                 value={location}
-                onChange={e => this.handleChange(e)}
+                onChange={this.handleChange}
                 placeholder="City"
                 className="embed-submit-field"
               />
@@ -59,11 +58,16 @@ class App extends Component {
             </form>
           </div>
           <div className="texts">
-            <p>or</p>{' '}
+            <p>or</p>
             <p className="center">
-              use my{' '}
-              <span className="dotted " onClick={() => this.handleClick()}>
-                current position{' '}
+              use my
+              <span
+                onKeyPress={() => {}}
+                className="dotted"
+                onClick={this.handleClick}
+                role="presentation"
+              >
+                current position
               </span>
             </p>
           </div>
@@ -74,34 +78,29 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.weatherReducer
-  };
-};
+const mapStateToProps = state => ({
+  ...state.weatherReducer
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateLocationName(location) {
-      dispatch(updateLocationName(location));
-    },
-    showResultsByLocation(location) {
-      if (typeof location !== 'undefined') {
-        dispatch(findByLocation(location));
-        dispatch(push('/search'));
-      }
-    },
-    showResultsByGeolocation() {
-      dispatch(findByGeoLocation());
+const mapDispatchToProps = dispatch => ({
+  updateLocationName: location => dispatch(updateLocationNameAction(location)),
+  showResultsByLocation: location => {
+    if (typeof location !== 'undefined') {
+      dispatch(findByLocationAction(location));
       dispatch(push('/search'));
-    },
-    clearLocation() {
-      dispatch({ type: 'CLEAR_LOCATION' });
     }
-  };
-};
+  },
+  showResultsByGeolocation() {
+    dispatch(findByGeoLocationAction());
+    dispatch(push('/search'));
+  },
+  clearLocation: () => dispatch({ type: 'CLEAR_LOCATION' })
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
 App.propTypes = {
   clearLocation: PropTypes.func,

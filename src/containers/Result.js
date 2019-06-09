@@ -3,26 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import renderHTML from 'react-render-html';
-import { push } from 'react-router-redux';
-import '../style/weather-icons/css/weather-icons.css';
+import { push } from 'connected-react-router';
 
-import '../style/Result.css';
-import arrow from '../style/back.svg';
 import {
-  changeUnit,
-  findByGeoLocation,
-  findByLocation,
-  goBack
+  changeUnitAction,
+  findByGeoLocationAction,
+  findByLocationAction
 } from '../actions/weatherAction';
 import { capitalize } from '../helpers';
-import { FullDayForecast, LoadingScreen, FourOfour } from '../components';
+import { FullDayForecast, LoadingScreen, FourOFour } from '../components';
+import '../style/weather-icons/css/weather-icons.css';
+import '../style/Result.css';
+import arrow from '../style/back.svg';
 
 class Result extends Component {
-  goBack() {
+  goBack = () => {
     this.props.goBack();
-  }
+  };
 
-  timeDifference(threshold) {
+  timeDifference = threshold => {
     const { timeStamp, location, currentGeolocation } = this.props;
     const timeSpan = moment().format();
     const timeDiff = moment(timeSpan).diff(timeStamp, 'minutes');
@@ -30,12 +29,11 @@ class Result extends Component {
       if (location.length > 0 && typeof location !== 'undefined') {
         this.props.findByLocation(location);
       }
-
-      if (Object.keys(currentGeolocation).length > 0) {
+      if (Object.keys(currentGeolocation).length) {
         this.props.findByGeoLocation();
       }
     }
-  }
+  };
 
   componentWillMount() {
     this.timeDifference(5);
@@ -48,7 +46,7 @@ class Result extends Component {
     }, TEN_MINUTES);
   }
 
-  renderHourlyTemp(data) {
+  renderHourlyTemp = data => {
     data = Object.keys(data || {})
       .map(key => {
         if (key !== 'min' && key !== 'max') {
@@ -58,9 +56,9 @@ class Result extends Component {
       .filter(x => x);
 
     return <FullDayForecast data={data} setSymbol={this.setSymbol()} />;
-  }
+  };
 
-  setDay(date) {
+  setDay = date => {
     let today = new Date();
     today = today.setDate(today.getDate() + date);
     today = new Date(today).getDay();
@@ -74,16 +72,16 @@ class Result extends Component {
       'Saturday'
     ];
     return days[today];
-  }
+  };
 
-  setSymbol() {
+  setSymbol = () => {
     if (this.props.unitOfMeasure === 'f') {
-      return renderHTML('&#8457;'); //degree F
+      return renderHTML('&#8457;'); // degree F
     }
-    return renderHTML('&#8451;'); //degree C
-  }
+    return renderHTML('&#8451;'); // degree C
+  };
 
-  showIconDayAndNightShift(code) {
+  showIconDayAndNightShift = code => {
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const prefix = 'wi wi-owm';
@@ -97,11 +95,11 @@ class Result extends Component {
       }
     }
 
-    return prefix + '-' + code;
-  }
+    return `${prefix}-${code}`;
+  };
 
-  renderSevenDaysForecast(el, i) {
-    const id = el.weather[0].id;
+  renderSevenDaysForecast = (el, i) => {
+    const { id } = el.weather[0];
     return (
       <div key={i}>
         <p>{this.setDay(i)}</p>
@@ -111,17 +109,17 @@ class Result extends Component {
         <p>{`${el.temp.day} ${this.setSymbol()}`}</p>
       </div>
     );
-  }
+  };
 
-  changedUnitOfMeasure(unit) {
+  changedUnitOfMeasure = unit => {
     const { dataForGivenLocation, dataForGivenLocationF } = this.props;
     return unit === 'c' ? dataForGivenLocation : dataForGivenLocationF;
-  }
+  };
 
-  toggleUnitOfMeasure(e) {
-    let toggle = e.target.checked;
+  toggleUnitOfMeasure = e => {
+    const toggle = e.target.checked;
     return toggle ? this.props.changeUnit('f') : this.props.changeUnit('c');
-  }
+  };
 
   render() {
     const { loading, errorMessage, errorMessageGeolocation } = this.props;
@@ -141,63 +139,61 @@ class Result extends Component {
         const data = this.changedUnitOfMeasure(unit);
 
         if (Object.keys(data).length <= 0) {
-          return <FourOfour goBack={() => this.goBack()} />;
-        } else {
-          const sevenDaysForecast = data.generalData.list;
-          return (
-            <div className="container">
-              <div className="header">
-                <div className="arrow">
-                  <img src={arrow} alt="_back" onClick={e => this.goBack(e)} />
-                </div>
-                <div className="">
-                  <h2>{data.specificData.name}</h2>
-                </div>
+          return <FourOFour goBack={this.goBack} />;
+        }
+        const sevenDaysForecast = data.generalData.list;
+        return (
+          <div className="container">
+            <div className="header">
+              <div className="arrow">
+                <img src={arrow} alt="_back" onClick={e => this.goBack(e)} />
               </div>
-              <div className="switch-container">
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    onClick={e => this.toggleUnitOfMeasure(e)}
-                  />
-                  <div className="slider round">
-                    <span className="on">&#8451;</span>
-                    <span className="off">&#8457;</span>
-                  </div>
-                </label>
-              </div>
-              <div className="date-day">
-                <h1>{todaysDate} </h1>
-                <h2>
-                  {' '}
-                  {capitalize(data.specificData.weather[0].description)}{' '}
-                </h2>
-              </div>
-              <div className="big-temp orange">
-                <h2>{`${Math.floor(
-                  data.specificData.main.temp
-                )} ${this.setSymbol()}`}</h2>
-              </div>
-              <div className="big-icon orange">
-                <h2>
-                  <i
-                    className={this.showIconDayAndNightShift(
-                      data.specificData.weather[0].id
-                    )}
-                  />
-                </h2>
-              </div>
-              <div className="daily-forecast orange">
-                {this.renderHourlyTemp(data.generalData.list[0].temp)}
-              </div>
-              <div className="days-forecast">
-                {sevenDaysForecast.map((el, index) =>
-                  this.renderSevenDaysForecast(el, index)
-                )}
+              <div className="">
+                <h2>{data.specificData.name}</h2>
               </div>
             </div>
-          );
-        }
+            <div className="switch-container">
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onClick={e => this.toggleUnitOfMeasure(e)}
+                />
+                <div className="slider round">
+                  <span className="on">&#8451;</span>
+                  <span className="off">&#8457;</span>
+                </div>
+              </label>
+            </div>
+            <div className="date-day">
+              <h1>{todaysDate}</h1>
+              <h2>{capitalize(data.specificData.weather[0].description)}</h2>
+            </div>
+            <div className="big-temp orange">
+              <h2>
+                {`${Math.floor(
+                  data.specificData.main.temp
+                )} ${this.setSymbol()}`}
+              </h2>
+            </div>
+            <div className="big-icon orange">
+              <h2>
+                <i
+                  className={this.showIconDayAndNightShift(
+                    data.specificData.weather[0].id
+                  )}
+                />
+              </h2>
+            </div>
+            <div className="daily-forecast orange">
+              {this.renderHourlyTemp(data.generalData.list[0].temp)}
+            </div>
+            <div className="days-forecast">
+              {sevenDaysForecast.map((el, index) =>
+                this.renderSevenDaysForecast(el, index)
+              )}
+            </div>
+          </div>
+        );
       }
     };
 
@@ -205,30 +201,29 @@ class Result extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.weatherReducer
-  };
-};
+const mapStateToProps = state => ({
+  ...state.weatherReducer
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeUnit(unit) {
-      dispatch(changeUnit(unit));
-    },
-    goBack() {
-      dispatch(push('/'));
-    },
-    findByLocation(location) {
-      dispatch(findByLocation(location));
-    },
-    findByGeoLocation() {
-      dispatch(findByGeoLocation());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  changeUnit(unit) {
+    dispatch(changeUnitAction(unit));
+  },
+  goBack() {
+    dispatch(push('/'));
+  },
+  findByLocation(location) {
+    dispatch(findByLocationAction(location));
+  },
+  findByGeoLocation() {
+    dispatch(findByGeoLocationAction());
+  }
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Result);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Result);
 
 Result.propTypes = {
   changeUnit: PropTypes.func.isRequired,

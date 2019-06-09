@@ -1,16 +1,49 @@
 import axios from 'axios';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import moment from 'moment';
 
 const API_KEY = 'b38372affa89f7dbc0f84a3750726835';
 
-export function findByLocation(location) {
+const findByLocationURL = (location, unit, details) => {
+  if (unit === 'c' && details === 'g') {
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`;
+  }
+  if (unit === 'c' && details === 's') {
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=${API_KEY}`;
+  }
+  if (unit === 'f' && details === 'g') {
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=imperial&cnt=7&APPID=${API_KEY}`;
+  }
+  if (unit === 'f' && details === 's') {
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&APPID=${API_KEY}`;
+  }
+};
+
+const findByGeoLocationURL = (geolocation, unit, details) => {
+  if (unit === 'c' && details === 'g') {
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=metric&cnt=7&APPID=${API_KEY}`;
+  }
+
+  if (unit === 'c' && details === 's') {
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=metric&APPID=${API_KEY}`;
+  }
+
+  if (unit === 'f' && details === 'g') {
+    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=imperial&cnt=7&APPID=${API_KEY}`;
+  }
+
+  if (unit === 'f' && details === 's') {
+    return `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation.coords.latitude}&lon=${geolocation.coords.longitude}&units=imperial&APPID=${API_KEY}`;
+  }
+};
+
+export function findByLocationAction(location) {
   const timeStamp = moment().format();
 
   return async dispatch => {
     dispatch({ type: 'START_LOADING' });
 
-    return await axios
+    const res = await axios
       .all([
         axios.get(findByLocationURL(location, 'c', 'g', API_KEY)),
         axios.get(findByLocationURL(location, 'c', 's', API_KEY)),
@@ -68,15 +101,16 @@ export function findByLocation(location) {
           dispatch({ type: 'STOP_LOADING' });
         }, 3000);
       });
+    return res;
   };
 }
 
-export function findByGeoLocation() {
+export function findByGeoLocationAction() {
   const timeStamp = moment().format();
   return async dispatch => {
     dispatch({ type: 'START_LOADING' });
 
-    return await navigator.geolocation.getCurrentPosition(
+    const res = await navigator.geolocation.getCurrentPosition(
       geolocation => {
         axios
           .all([
@@ -149,59 +183,20 @@ export function findByGeoLocation() {
         }, 3000);
       }
     );
+    return res;
   };
 }
 
-export function updateLocationName(location) {
+export function updateLocationNameAction(location) {
   return {
     type: 'UPDATE_LOCATION_NAME',
     payload: location
   };
 }
 
-export function changeUnit(unit) {
+export function changeUnitAction(unit) {
   return {
     type: 'CHANGE_UNIT',
     payload: unit
   };
 }
-
-const findByLocationURL = (location, unit, details, API_KEY) => {
-  if (unit === 'c' && details === 'g') {
-    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=metric&cnt=7&APPID=${API_KEY}`;
-  } else if (unit === 'c' && details === 's') {
-    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=${API_KEY}`;
-  } else if (unit === 'f' && details === 'g') {
-    return `https://api.openweathermap.org/data/2.5/forecast/daily?q=${location}&units=imperial&cnt=7&APPID=${API_KEY}`;
-  } else if (unit === 'f' && details === 's') {
-    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&APPID=${API_KEY}`;
-  }
-};
-
-const findByGeoLocationURL = (geolocation, unit, details, API_KEY) => {
-  if (unit === 'c' && details === 'g') {
-    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${
-      geolocation.coords.latitude
-    }&lon=${geolocation.coords.longitude}&units=metric&cnt=7&APPID=${API_KEY}`;
-  }
-
-  if (unit === 'c' && details === 's') {
-    return `https://api.openweathermap.org/data/2.5/weather?lat=${
-      geolocation.coords.latitude
-    }&lon=${geolocation.coords.longitude}&units=metric&APPID=${API_KEY}`;
-  }
-
-  if (unit === 'f' && details === 'g') {
-    return `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${
-      geolocation.coords.latitude
-    }&lon=${
-      geolocation.coords.longitude
-    }&units=imperial&cnt=7&APPID=${API_KEY}`;
-  }
-
-  if (unit === 'f' && details === 's') {
-    return `https://api.openweathermap.org/data/2.5/weather?lat=${
-      geolocation.coords.latitude
-    }&lon=${geolocation.coords.longitude}&units=imperial&APPID=${API_KEY}`;
-  }
-};

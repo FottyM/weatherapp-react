@@ -1,55 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import createHistory from 'history/createBrowserHistory';
-import {
-  ConnectedRouter,
-  routerReducer,
-  routerMiddleware,
-  push
-} from 'react-router-redux';
-import { Route } from 'react-router';
-import throttle from 'lodash/throttle';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import './index.css';
 import { App, Result } from './containers';
-import { loadState, saveState } from './localStore';
+import { loadState } from './localStore';
 
 import registerServiceWorker from './registerServiceWorker';
-// import logger from 'redux-logger';
-import weatherReducer from './reducers/weatherReducer';
+import configureStore from './configureStore';
+import './index.css';
+import { FourOFour } from './components';
 
-const history = createHistory();
-const middleware = routerMiddleware(history);
 const persistedState = loadState();
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = configureStore(persistedState);
 
-const store = createStore(
-  combineReducers({
-    weatherReducer,
-    router: routerReducer
-  }),
-  persistedState,
-  composeEnhancers(applyMiddleware(thunk, middleware))
-);
-
-store.subscribe(
-  throttle(() => {
-    saveState(store.getState());
-  }, 1000)
-);
-
-ReactDOM.render(
+const MainApp = () => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <div className="mother-box">
-        <Route exact path="/" component={App} />
-        <Route path="/search" component={Result} />
-      </div>
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('app')
+    <Router>
+      <React.StrictMode>
+        <div className="mother-box">
+          <Switch>
+            <Route exact path="/" component={App} />
+            <Route path="/search" component={Result} />
+            <Route component={FourOFour} />
+          </Switch>
+        </div>
+      </React.StrictMode>
+    </Router>
+  </Provider>
 );
+
+ReactDOM.render(<MainApp />, document.getElementById('app'));
 registerServiceWorker();

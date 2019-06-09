@@ -1,5 +1,5 @@
 import FullDayForecast from './FullDayForecast';
 import LoadingScreen from './LoadingScreen';
-import FourOfour from './FourOfour';
+import FourOFour from './FourOfour';
 
-export { FullDayForecast, LoadingScreen, FourOfour };
+export { FullDayForecast, LoadingScreen, FourOFour };

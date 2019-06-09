@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-let initialState = {
+const initialState = {
   location: '',
   currentGeolocation: {},
   dataForGivenLocation: {},

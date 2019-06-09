@@ -4,17 +4,14 @@
   grid-auto-rows: minmax(160px, 166.6px);
   justify-items: center;
   align-items: center;
-  text-align: center;
-}
+  text-align: center; }
 
 .dotted {
   border-bottom: 1px dashed #999;
   text-decoration: none;
-  cursor: pointer;
-}
-.dotted:hover {
-  color: #fe806a;
-}
+  cursor: pointer; }
+  .dotted:hover {
+    color: #fe806a; }
 
 input[type='text'] {
   border: none;
@@ -23,46 +20,38 @@ input[type='text'] {
   font-size: 1.7em;
   width: 80%;
   padding: 0;
-  color: #4b6772;
-}
+  color: #4b6772; }
 
 .embed-submit-field {
   position: relative;
-  font-size: 20px;
-}
-.embed-submit-field input {
-  width: 100%;
-  padding: 15px;
-}
-.embed-submit-field button {
-  position: absolute;
-  right: 10px;
-  top: 7px;
-  border: none;
-  background: #fff;
-  border-radius: 3px;
-  padding: 10px;
-  transition: all 0.2s;
-  font-size: 25px;
-}
-.embed-submit-field button:hover {
-  color: #fe806a;
-  cursor: pointer;
-}
+  font-size: 20px; }
+  .embed-submit-field input {
+    width: 100%;
+    padding: 15px; }
+  .embed-submit-field button {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    border: none;
+    background: #fff;
+    border-radius: 3px;
+    padding: 10px;
+    transition: all 0.2s;
+    font-size: 25px; }
+    .embed-submit-field button:hover {
+      color: #fe806a;
+      cursor: pointer; }
 
 .texts {
   display: grid;
   grid-template-columns: 1fr;
-  justify-items: center;
-}
-.texts p {
-  padding: 0;
-  margin: 0;
-  font-size: 1.3em;
-}
+  justify-items: center; }
+  .texts p {
+    padding: 0;
+    margin: 0;
+    font-size: 1.3em; }
 
 .red-alert {
   color: red;
   font-size: 20px;
-  text-align: center;
-}
+  text-align: center; }
