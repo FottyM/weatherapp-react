@@ -45,10 +45,10 @@ export function findByLocationAction(location) {
 
     const res = await axios
       .all([
-        axios.get(findByLocationURL(location, 'c', 'g', API_KEY)),
-        axios.get(findByLocationURL(location, 'c', 's', API_KEY)),
-        axios.get(findByLocationURL(location, 'f', 'g', API_KEY)),
-        axios.get(findByLocationURL(location, 'f', 's', API_KEY))
+        axios.get(findByLocationURL(location, 'c', 'g', 'xs')),
+        axios.get(findByLocationURL(location, 'c', 's')),
+        axios.get(findByLocationURL(location, 'f', 'g')),
+        axios.get(findByLocationURL(location, 'f', 's'))
       ])
 
       .then(
@@ -114,10 +114,10 @@ export function findByGeoLocationAction() {
       geolocation => {
         axios
           .all([
-            axios.get(findByGeoLocationURL(geolocation, 'c', 'g', API_KEY)),
-            axios.get(findByGeoLocationURL(geolocation, 'c', 's', API_KEY)),
-            axios.get(findByGeoLocationURL(geolocation, 'f', 'g', API_KEY)),
-            axios.get(findByGeoLocationURL(geolocation, 'f', 's', API_KEY))
+            axios.get(findByGeoLocationURL(geolocation, 'c', 'g')),
+            axios.get(findByGeoLocationURL(geolocation, 'c', 's')),
+            axios.get(findByGeoLocationURL(geolocation, 'f', 'g')),
+            axios.get(findByGeoLocationURL(geolocation, 'f', 's'))
           ])
           .then(
             axios.spread(
