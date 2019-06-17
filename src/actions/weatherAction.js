@@ -45,7 +45,7 @@ export function findByLocationAction(location) {
 
     const res = await axios
       .all([
-        axios.get(findByLocationURL(location, 'c', 'g')),
+        axios.get(findByLocationURL(location, 'c', 'g', 'xs')),
         axios.get(findByLocationURL(location, 'c', 's')),
         axios.get(findByLocationURL(location, 'f', 'g')),
         axios.get(findByLocationURL(location, 'f', 's'))
