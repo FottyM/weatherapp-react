@@ -35,12 +35,9 @@ class Result extends Component {
     }
   };
 
-  componentWillMount() {
-    this.timeDifference(5);
-  }
-
   componentDidMount() {
     const TEN_MINUTES = 600000;
+    this.timeDifference(5);
     setInterval(() => {
       this.timeDifference(30);
     }, TEN_MINUTES);

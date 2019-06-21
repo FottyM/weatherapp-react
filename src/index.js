@@ -8,8 +8,8 @@ import { loadState } from './localStore';
 
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './configureStore';
-import './index.css';
 import { FourOFour } from './components';
+import './index.css';
 
 const persistedState = loadState();
 const store = configureStore(persistedState);

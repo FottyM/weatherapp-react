@@ -67,6 +67,7 @@ class App extends Component {
                 onClick={this.handleClick}
                 role="presentation"
               >
+                {' '}
                 current position
               </span>
             </p>
