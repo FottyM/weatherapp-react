@@ -15,7 +15,7 @@ class App extends Component {
     const { showResultsByLocation } = this.props;
     e.preventDefault();
     const { location } = this.props;
-    if (location.length > 0 && typeof location !== 'undefined') {
+    if (location) {
       showResultsByLocation(location);
     }
   };
@@ -29,7 +29,7 @@ class App extends Component {
   handleClick = () => {
     const { location, clearLocation, showResultsByGeolocation } = this.props;
 
-    if (location.length > 0 && typeof location !== 'undefined') {
+    if (location) {
       clearLocation();
       showResultsByGeolocation();
       return;
