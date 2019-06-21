@@ -1,29 +1,28 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { func } from 'prop-types';
 import '../style/App.css';
 
-const FourOFour = ({ history }) => (
-  <div className="home-container">
-    <div>
-      <button
-        type="button"
-        style={{
-          width: 100,
-          height: 40,
-          backgroundColor: 'red',
-          opacity: '.7',
-          borderRadius: 400
-        }}
-        onClick={() => history.push('/')}
-      >
-        HOME
-      </button>
-    </div>
-    <div>
-      <h1> Four-O-Four </h1>
-    </div>
-    <div />
-  </div>
-);
+const FourOFour = props => {
+  const goBack = () => {
+    props.goBack();
+  };
 
-export default withRouter(FourOFour);
+  return (
+    <div className="home-container">
+      <div>
+        <button type="button" onClick={goBack}>
+          back
+        </button>
+      </div>
+      <div>
+        <h1> Four-O-Four </h1>
+      </div>
+    </div>
+  );
+};
+
+FourOFour.propTypes = {
+  goBack: func.isRequired
+};
+
+export default FourOFour;
