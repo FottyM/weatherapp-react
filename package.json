@@ -7,7 +7,7 @@
     "connected-react-router": "^6.4.0",
     "create-react-app-stylus": "^1.1.1",
     "history": "^4.7.2",
-    "husky": "^2.4.1",
+    "husky": "^3.0.0",
     "lint-staged": "^8.2.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
